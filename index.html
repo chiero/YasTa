@@ -516,38 +516,49 @@ function promoEsHoy(vigencia){
 // Se llenará desde promos.json dinámicamente o usa fallback.
 let BANKS = [
   {
-    id:'galicia',name:'Banco Galicia',icon:'🏛️',color:'linear-gradient(135deg,#1e3a8a,#3b82f6)',
-    promos:[
-      {rubro:'supermercados',comercio:'Carrefour (Hiper, Market)',desc:'3 cuotas sin interés',tope:'Sin tope',vigencia:'jue·vie·sáb·dom',card:'Crédito Visa',nota:'Excluye Electro y Bazar'},
-      {rubro:'combustible',comercio:'YPF (con Modo Galicia)',desc:'15% off',tope:'$5.000 / mes',vigencia:'Todos los días',card:'Crédito Galicia'},
-      {rubro:'delivery',comercio:'PedidosYa',desc:'30% off',tope:'$2.000 / cupón',vigencia:'mar·jue',card:'Mastercard Crédito'}
+    id: 'galicia', name: 'Banco Galicia', icon: '🏛️', color: 'linear-gradient(135deg,#1e3a8a,#3b82f6)',
+    promos: [
+      {rubro: 'supermercados', comercio: 'Carrefour, Jumbo, Disco, Vea', desc: '25% off', tope: '$10.000 / semana', vigencia: 'Miércoles', card: 'MODO (App Galicia)', nota: 'Reintegro en cuenta'},
+      {rubro: 'combustible', comercio: 'YPF', desc: '15% off', tope: '$5.000 / mes', vigencia: 'Todos los días', card: 'MODO (App Galicia)'},
+      {rubro: 'delivery', comercio: 'PedidosYa', desc: '30% off', tope: '$2.500', vigencia: 'mar·jue', card: 'Mastercard Crédito'}
     ]
   },
   {
-    id:'naranjax',name:'Naranja X',icon:'🍊',color:'linear-gradient(135deg,#ea580c,#f97316)',
-    promos:[
-      {rubro:'supermercados',comercio:'Carrefour',desc:'25% off',tope:'$12.000 / semana',vigencia:'Martes',card:'Naranja X (plan suscripción)'},
-      {rubro:'delivery',comercio:'Rappi, PedidosYa',desc:'10% off',tope:'$1.500',vigencia:'Todos los días',card:'Naranja X'},
+    id: 'naranjax', name: 'Naranja X', icon: '🍊', color: 'linear-gradient(135deg,#ea580c,#f97316)',
+    promos: [
+      {rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '25% off', tope: '$12.000 / semana', vigencia: 'Martes', card: 'Naranja X (Plan Turbo)', nota: '15% sin Plan Turbo'},
+      {rubro: 'comercios', comercio: 'Carnicerías y Granjas', desc: '30% off', tope: '$8.000 / mes', vigencia: 'Todos los días', card: 'Tarjeta de Crédito NX'},
+      {rubro: 'delivery', comercio: 'Rappi', desc: '10% off', tope: '$1.500', vigencia: 'Todos los días', card: 'Prepaga Naranja X'}
     ]
   },
   {
-    id:'mercadopago',name:'Mercado Pago',icon:'💛',color:'linear-gradient(135deg,#009EE3,#00B2E3)',
-    promos:[
-      {rubro:'supermercados',comercio:'Carrefour (online)',desc:'20% off',tope:'$15.000',vigencia:'Lunes',card:'Dinero en cuenta MP'},
-      {rubro:'supermercados',comercio:'Changomas, Punto Mayorista',desc:'10% off',tope:'$2.000',vigencia:'Todos los días',card:'QR Mercado Pago'},
+    id: 'mercadopago', name: 'Mercado Pago', icon: '💛', color: 'linear-gradient(135deg,#009EE3,#00B2E3)',
+    promos: [
+      {rubro: 'supermercados', comercio: 'Carrefour Online', desc: '20% off', tope: '$15.000', vigencia: 'Lunes', card: 'Dinero en cuenta', nota: 'Solo App/Web'},
+      {rubro: 'supermercados', comercio: 'Changomas', desc: '10% off', tope: '$2.000', vigencia: 'Todos los días', card: 'QR Mercado Pago'},
+      {rubro: 'farmacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.500', vigencia: 'lun a vie', card: 'QR Mercado Pago'}
     ]
   },
   {
-    id:'modo',name:'MODO',icon:'⚡',color:'linear-gradient(135deg,#7c3aed,#a855f7)',
-    promos:[
-      {rubro:'supermercados',comercio:'Carrefour',desc:'10% off QR',tope:'Sin tope',vigencia:'Sábados',card:'QR MODO',nota:'Excluye Electro'},
-      {rubro:'combustible',comercio:'Shell',desc:'12% off',tope:'Sin tope',vigencia:'Todo el mes',card:'QR MODO'},
+    id: 'modo', name: 'MODO', icon: '⚡', color: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+    promos: [
+      {rubro: 'supermercados', comercio: 'Carrefour, ChangoMás', desc: '10% off QR', tope: '$10.000 / mes', vigencia: 'Sábados', card: 'App MODO'},
+      {rubro: 'combustible', comercio: 'Shell', desc: '12% off', tope: '$3.000', vigencia: 'Todos los días', card: 'QR MODO'}
     ]
   },
   {
-    id:'provincia',name:'Banco Provincia',icon:'🟢',color:'linear-gradient(135deg,#006837,#39b54a)',
-    promos:[
-      {rubro: 'comercios', comercio: 'Comercios de Barrio (Cuenta DNI)', desc: '20% off', tope: '$5.000 por semana', vigencia: 'De lunes a viernes', card: 'Cuenta DNI'}
+    id: 'provincia', name: 'Banco Provincia', icon: '🟢', color: 'linear-gradient(135deg,#006837,#39b54a)',
+    promos: [
+      {rubro: 'comercios', comercio: 'Comercios de Barrio', desc: '20% off', tope: '$5.000 por semana', vigencia: 'lun a vie', card: 'Cuenta DNI'},
+      {rubro: 'supermercados', comercio: 'Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000'},
+      {rubro: 'supermercados', comercio: 'Toledo, Carrefour', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI'}
+    ]
+  },
+  {
+    id: 'nacion', name: 'Banco Nación', icon: '🇦🇷', color: 'linear-gradient(135deg,#0054a6,#0072c6)',
+    promos: [
+      {rubro: 'supermercados', comercio: 'Carrefour, Coto, ChangoMás', desc: '30% off', tope: '$12.000 / semana', vigencia: 'Miércoles', card: 'MODO BNA+'},
+      {rubro: 'combustible', comercio: 'YPF', desc: '10% off', tope: '$3.000', vigencia: 'Todos los días', card: 'MODO BNA+'}
     ]
   }
 ];
@@ -818,56 +829,33 @@ function updateMatchCount(){
 // ✅ Comparador actualizado con datos verificados al 16/03/2026
 const COMPARE_DB={
   'carrefour':[
-    // Fuente: carrefour.com.ar/descuentos-bancarios — verificado 16/03/2026
-    {name:'Naranja X (suscripción)',detail:'25% off · Tope $12.000/semana · Solo martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
-    {name:'Mercado Pago (online/app)',detail:'20% off · Tope $15.000 · Solo lunes en app',pct:'-20%',color:'var(--green)',badge:'LUNES'},
-    {name:'Naranja X (débito)',detail:'15% off Visa Débito NX · Tope $6.000/semana · Solo martes',pct:'-15%',color:'var(--accent)',badge:'MARTES'},
-    {name:'MODO / Billeteras QR',detail:'10% off QR · Sin tope · Solo sábados · Excluye Electro',pct:'-10%',color:'var(--accent)',badge:'SÁBADOS'},
-    {name:'Galicia Crédito',detail:'3 cuotas sin interés · Sin tope · jue a dom · Excluye Electro',pct:'3CSI',color:'var(--amber)',badge:'JUE-DOM'},
-    {name:'Débito / Efectivo',detail:'Sin promo activa hoy — comprá otro día con promo',pct:'0%',color:'var(--text3)',badge:''},
+    {name:'Banco Nación (BNA+)',detail:'30% off · Tope $12.000/semana · Solo miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'Banco Galicia (MODO)',detail:'25% off · Tope $10.000/semana · Solo miércoles',pct:'-25%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'Banco Provincia (Cta DNI)',detail:'20% off · Sin tope · Solo miércoles',pct:'-20%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'Mercado Pago (online/app)',detail:'20% off · Tope $15.000 · Solo lunes',pct:'-20%',color:'var(--green)',badge:'LUNES'},
+    {name:'MODO QR',detail:'10% off · Tope $10.000/mes · Solo sábados',pct:'-10%',color:'var(--accent)',badge:'SÁBADOS'},
   ],
   'ypf':[
-    {name:'Galicia (vía MODO)',detail:'15% off · Tope $5.000/mes · Todos los días',pct:'-15%',color:'var(--green)',badge:''},
-    {name:'MODO QR (Shell)',detail:'12% off en Shell · Sin tope · Todo el mes',pct:'-12%',color:'var(--accent)',badge:'SHELL'},
-    {name:'Santander',detail:'10% off en YPF · Tope $3.000 · lun·mié',pct:'-10%',color:'var(--accent)',badge:''},
-    {name:'Mercado Pago QR',detail:'Sin promo en YPF vigente',pct:'0%',color:'var(--text3)',badge:''},
+    {name:'Banco Macro (Selecta)',detail:'30% off · Tope $25.000/mes · Solo miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'Banco Galicia (MODO)',detail:'15% off · Tope $5.000/mes · Todos los días',pct:'-15%',color:'var(--green)',badge:''},
+    {name:'Banco Nación (BNA+)',detail:'10% off · Tope $3.000 · Todos los días',pct:'-10%',color:'var(--accent)',badge:''},
+    {name:'Santander (App YPF)',detail:'10% off Black/Platinum · Tope $7.500/mes · Jueves',pct:'-10%',color:'var(--accent)',badge:'JUEVES'},
   ],
   'pedidosya':[
-    {name:'Galicia Mastercard',detail:'30% off · Tope $2.000 · mar·jue',pct:'-30%',color:'var(--green)',badge:''},
-    {name:'MODO QR',detail:'15% off · Tope $1.000 · Todos los días',pct:'-15%',color:'var(--accent)',badge:''},
+    {name:'Galicia Mastercard',detail:'30% off · Tope $2.500 · mar·jue',pct:'-30%',color:'var(--green)',badge:''},
     {name:'Naranja X',detail:'10% off · Tope $1.500 · Todos los días',pct:'-10%',color:'var(--accent)',badge:''},
-    {name:'Mercado Pago',detail:'Sin promo vigente en PedidosYa',pct:'0%',color:'var(--text3)',badge:''},
+  ],
+  'jumbo':[
+    {name:'Naranja X (Plan Turbo)',detail:'25% off · Tope $12.000/semana · Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
+    {name:'Banco Galicia (MODO)',detail:'25% off · Tope $10.000/semana · Miércoles',pct:'-25%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'BBVA',detail:'25% off · Consultar tope · Todos los días',pct:'-25%',color:'var(--green)',badge:''},
   ],
   'farmacity':[
     {name:'Mercado Pago QR',detail:'15% off · Tope $2.500 · lun a vie',pct:'-15%',color:'var(--green)',badge:''},
-    {name:'BBVA Débito',detail:'15% off · Tope $3.500 · lun·mié·vie',pct:'-15%',color:'var(--green)',badge:''},
-    {name:'MODO QR',detail:'10% off · Tope $1.500 · lun·mié·vie',pct:'-10%',color:'var(--accent)',badge:''},
-    {name:'Santander',detail:'Sin promo directa en Farmacity hoy',pct:'0%',color:'var(--text3)',badge:''},
-  ],
-  'rappi':[
-    {name:'MODO QR',detail:'15% off · Tope $1.000 · Todos los días',pct:'-15%',color:'var(--green)',badge:''},
-    {name:'Naranja X',detail:'10% off · Tope $1.500 · Todos los días',pct:'-10%',color:'var(--accent)',badge:''},
-    {name:'Mercado Pago',detail:'20% off código especial en burgers',pct:'-20%',color:'var(--green)',badge:'BURGERS'},
-    {name:'Galicia',detail:'Sin promo en Rappi vigente',pct:'0%',color:'var(--text3)',badge:''},
-  ],
-  'falabella':[
-    {name:'Santander Visa',detail:'25% off · Tope $8.000 · mar·jue',pct:'-25%',color:'var(--green)',badge:''},
-    {name:'Naranja X',detail:'20% off · Tope $8.000 · Miércoles',pct:'-20%',color:'var(--green)',badge:''},
-    {name:'Galicia Visa',detail:'12 cuotas sin interés · Sin tope · Todo el mes',pct:'12CSI',color:'var(--amber)',badge:''},
-    {name:'BBVA',detail:'Sin promo directa en Falabella hoy',pct:'0%',color:'var(--text3)',badge:''},
-  ],
-  'walmart':[
-    {name:'Santander Mastercard',detail:'20% off · Tope $3.000 · mié·jue',pct:'-20%',color:'var(--green)',badge:''},
-    {name:'BBVA',detail:'Sin promo directa en Walmart hoy',pct:'0%',color:'var(--text3)',badge:''},
   ],
   'coto':[
-    {name:'MODO / Billeteras QR',detail:'10% off QR · Sin tope · Sábados',pct:'-10%',color:'var(--green)',badge:'SÁBADOS'},
-    {name:'Mercado Pago QR',detail:'10% off · Tope $2.000 · Todos los días',pct:'-10%',color:'var(--accent)',badge:''},
-    {name:'Sin promos bancarias directas',detail:'Aboná con QR para aprovechar promos',pct:'—',color:'var(--text3)',badge:''},
-  ],
-  'disco':[
-    {name:'Naranja X',detail:'25% off · Tope $12.000/sem · Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
-    {name:'Mercado Pago QR',detail:'10% off · Tope $2.000 · Todos los días',pct:'-10%',color:'var(--accent)',badge:''},
+    {name:'Banco Nación (BNA+)',detail:'30% off · Tope $12.000/semana · Miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'MODO QR',detail:'10% off · Sin tope · Sábados',pct:'-10%',color:'var(--green)',badge:'SÁBADOS'},
   ],
 };
 const QUICK=[{label:'🛒 Carrefour',key:'carrefour'},{label:'⛽ YPF',key:'ypf'},{label:'🍕 PedidosYa',key:'pedidosya'},{label:'💊 Farmacity',key:'farmacity'},{label:'🛵 Rappi',key:'rappi'},{label:'👗 Falabella',key:'falabella'},{label:'🛒 Coto',key:'coto'},{label:'🫰 Disco',key:'disco'},{label:'🛍️ Walmart',key:'walmart'}];

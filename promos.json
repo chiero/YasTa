@@ -1,5 +1,5 @@
 {
-  "updatedAsOf": "2026-03-18T02:37:21.353Z",
+  "updatedAsOf": "2026-03-18T13:12:53.636Z",
   "banks": [
     {
       "id": "galicia",
@@ -9,26 +9,26 @@
       "promos": [
         {
           "rubro": "supermercados",
-          "comercio": "Carrefour",
-          "desc": "3 cuotas sin interés",
-          "tope": "Sin tope",
-          "vigencia": "jue·vie·sáb·dom",
-          "card": "Crédito Visa/Mastercard",
-          "nota": "Excluye Electro"
+          "comercio": "Carrefour, Jumbo, Disco, Vea",
+          "desc": "25% off",
+          "tope": "$10.000 / semana",
+          "vigencia": "Miércoles",
+          "card": "MODO (App Galicia)",
+          "nota": "Reintegro en cuenta"
         },
         {
           "rubro": "combustible",
           "comercio": "YPF",
           "desc": "15% off",
-          "tope": "$5.000",
+          "tope": "$5.000 / mes",
           "vigencia": "Todos los días",
-          "card": "Crédito Galicia"
+          "card": "MODO (App Galicia)"
         },
         {
           "rubro": "delivery",
           "comercio": "PedidosYa",
           "desc": "30% off",
-          "tope": "$2.000",
+          "tope": "$2.500",
           "vigencia": "mar·jue",
           "card": "Mastercard Crédito"
         }
@@ -42,12 +42,20 @@
       "promos": [
         {
           "rubro": "supermercados",
-          "comercio": "Carrefour",
+          "comercio": "Jumbo, Disco, Vea",
           "desc": "25% off",
-          "tope": "$12.000 / mes",
+          "tope": "$12.000 / semana",
           "vigencia": "Martes",
-          "card": "Naranja X",
-          "nota": "Plan Suscripción"
+          "card": "Naranja X (Plan Turbo)",
+          "nota": "15% sin Plan Turbo"
+        },
+        {
+          "rubro": "comercios",
+          "comercio": "Carnicerías y Granjas",
+          "desc": "30% off",
+          "tope": "$8.000 / mes",
+          "vigencia": "Todos los días",
+          "card": "Tarjeta de Crédito NX"
         },
         {
           "rubro": "delivery",
@@ -55,7 +63,7 @@
           "desc": "10% off",
           "tope": "$1.500",
           "vigencia": "Todos los días",
-          "card": "Naranja X"
+          "card": "Prepaga Naranja X"
         }
       ]
     },
@@ -67,12 +75,12 @@
       "promos": [
         {
           "rubro": "supermercados",
-          "comercio": "Carrefour",
+          "comercio": "Carrefour Online",
           "desc": "20% off",
           "tope": "$15.000",
           "vigencia": "Lunes",
           "card": "Dinero en cuenta",
-          "nota": "Solo app/online"
+          "nota": "Solo App/Web"
         },
         {
           "rubro": "supermercados",
@@ -80,7 +88,7 @@
           "desc": "10% off",
           "tope": "$2.000",
           "vigencia": "Todos los días",
-          "card": "QR"
+          "card": "QR Mercado Pago"
         },
         {
           "rubro": "farmacia",
@@ -88,7 +96,7 @@
           "desc": "15% off",
           "tope": "$2.500",
           "vigencia": "lun a vie",
-          "card": "QR"
+          "card": "QR Mercado Pago"
         }
       ]
     },
@@ -100,19 +108,19 @@
       "promos": [
         {
           "rubro": "supermercados",
-          "comercio": "Carrefour, Coto",
+          "comercio": "Carrefour, ChangoMás",
           "desc": "10% off QR",
-          "tope": "Sin tope",
+          "tope": "$10.000 / mes",
           "vigencia": "Sábados",
-          "card": "QR"
+          "card": "App MODO"
         },
         {
           "rubro": "combustible",
           "comercio": "Shell",
           "desc": "12% off",
-          "tope": "Sin tope",
+          "tope": "$3.000",
           "vigencia": "Todos los días",
-          "card": "QR"
+          "card": "QR MODO"
         }
       ]
     },
@@ -123,19 +131,28 @@
       "color": "linear-gradient(135deg,#006837,#39b54a)",
       "promos": [
         {
-          "rubro": "supermercados",
-          "comercio": "Carrefour, Coto, Toledo",
+          "rubro": "comercios",
+          "comercio": "Comercios de Barrio",
           "desc": "20% off",
-          "tope": "$4.500",
-          "vigencia": "sáb·dom",
+          "tope": "$5.000 por semana",
+          "vigencia": "lun a vie",
           "card": "Cuenta DNI"
         },
         {
           "rubro": "supermercados",
-          "comercio": "Cooperativas",
+          "comercio": "Día",
           "desc": "20% off",
-          "tope": "$2.500",
-          "vigencia": "lun·mar·mié·jue·vie",
+          "tope": "$8.000",
+          "vigencia": "Lunes",
+          "card": "Cuenta DNI",
+          "nota": "Mínimo ticket $25.000"
+        },
+        {
+          "rubro": "supermercados",
+          "comercio": "Toledo, Carrefour",
+          "desc": "20% off",
+          "tope": "Sin tope",
+          "vigencia": "Miércoles",
           "card": "Cuenta DNI"
         }
       ]
@@ -148,11 +165,11 @@
       "promos": [
         {
           "rubro": "supermercados",
-          "comercio": "Carrefour, Coto",
-          "desc": "20% off",
-          "tope": "$4.000",
+          "comercio": "Carrefour, Coto, ChangoMás",
+          "desc": "30% off",
+          "tope": "$12.000 / semana",
           "vigencia": "Miércoles",
-          "card": "BNA+ MODO"
+          "card": "MODO BNA+"
         },
         {
           "rubro": "combustible",
@@ -160,7 +177,7 @@
           "desc": "10% off",
           "tope": "$3.000",
           "vigencia": "Todos los días",
-          "card": "BNA+ MODO"
+          "card": "MODO BNA+"
         }
       ]
     },
@@ -171,20 +188,20 @@
       "color": "linear-gradient(135deg,#8b0000,#cc0000)",
       "promos": [
         {
-          "rubro": "supermercados",
-          "comercio": "Walmart, Changomas",
-          "desc": "20% off",
-          "tope": "$3.000",
-          "vigencia": "mié·jue",
-          "card": "Mastercard"
+          "rubro": "combustible",
+          "comercio": "YPF App",
+          "desc": "10% off",
+          "tope": "$7.500 / mes",
+          "vigencia": "Jueves",
+          "card": "Visa Black/Platinum"
         },
         {
-          "rubro": "indumentaria",
-          "comercio": "Zara, Falabella",
-          "desc": "25% off",
-          "tope": "$8.000",
-          "vigencia": "Martes, Jueves",
-          "card": "Visa"
+          "rubro": "supermercados",
+          "comercio": "Jumbo, Disco, Vea",
+          "desc": "20% off",
+          "tope": "$20.000 / mes",
+          "vigencia": "Todos los días",
+          "card": "Visa/MC (Jubilados)"
         }
       ]
     },
@@ -196,19 +213,19 @@
       "promos": [
         {
           "rubro": "supermercados",
-          "comercio": "Jumbo, Disco, Vea",
-          "desc": "20% off",
-          "tope": "$3.500",
-          "vigencia": "Martes",
-          "card": "Visa"
+          "comercio": "Nini Mayorista",
+          "desc": "30% off",
+          "tope": "$25.000 / mes",
+          "vigencia": "Miércoles",
+          "card": "MODO Selecta"
         },
         {
-          "rubro": "supermercados",
-          "comercio": "Carrefour",
-          "desc": "15% off",
-          "tope": "$2.500",
-          "vigencia": "Viernes",
-          "card": "Mastercard"
+          "rubro": "combustible",
+          "comercio": "YPF",
+          "desc": "30% off",
+          "tope": "$25.000 / mes",
+          "vigencia": "Miércoles",
+          "card": "MODO Selecta"
         }
       ]
     },
@@ -220,19 +237,11 @@
       "promos": [
         {
           "rubro": "supermercados",
-          "comercio": "Carrefour, Coto",
-          "desc": "10% off",
-          "tope": "$2.500",
-          "vigencia": "lun·mié·vie",
-          "card": "Prepaga Mastercard"
-        },
-        {
-          "rubro": "framacia",
-          "comercio": "Farmacity",
-          "desc": "15% off",
-          "tope": "$2.000",
-          "vigencia": "mar·jue",
-          "card": "Prepaga Mastercard"
+          "comercio": "Cualquier supermercado",
+          "desc": "10% cashback",
+          "tope": "$500",
+          "vigencia": "Todos los días",
+          "card": "Tarjeta de Crédito Ualá"
         }
       ]
     }

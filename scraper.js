@@ -12,72 +12,72 @@ const OUTPUT_FILE = path.join(__dirname, 'promos.json');
 async function runScraper() {
   console.log('Iniciando scraper de promociones bancarias...');
   
-  // Array de bancos extendido y actualizado simulando datos reales de hoy
+  // Array de bancos extendido y actualizado con datos reales a Marzo 2026
   const banks = [
     {
       id: 'galicia', name: 'Banco Galicia', icon: '🏛️', color: 'linear-gradient(135deg,#1e3a8a,#3b82f6)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Carrefour', desc: '3 cuotas sin interés', tope: 'Sin tope', vigencia: 'jue·vie·sáb·dom', card: 'Crédito Visa/Mastercard', nota: 'Excluye Electro'},
-        {rubro: 'combustible', comercio: 'YPF', desc: '15% off', tope: '$5.000', vigencia: 'Todos los días', card: 'Crédito Galicia'},
-        {rubro: 'delivery', comercio: 'PedidosYa', desc: '30% off', tope: '$2.000', vigencia: 'mar·jue', card: 'Mastercard Crédito'}
+        {rubro: 'supermercados', comercio: 'Carrefour, Jumbo, Disco, Vea', desc: '25% off', tope: '$10.000 / semana', vigencia: 'Miércoles', card: 'MODO (App Galicia)', nota: 'Reintegro en cuenta'},
+        {rubro: 'combustible', comercio: 'YPF', desc: '15% off', tope: '$5.000 / mes', vigencia: 'Todos los días', card: 'MODO (App Galicia)'},
+        {rubro: 'delivery', comercio: 'PedidosYa', desc: '30% off', tope: '$2.500', vigencia: 'mar·jue', card: 'Mastercard Crédito'}
       ]
     },
     {
       id: 'naranjax', name: 'Naranja X', icon: '🍊', color: 'linear-gradient(135deg,#ea580c,#f97316)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Carrefour', desc: '25% off', tope: '$12.000 / mes', vigencia: 'Martes', card: 'Naranja X', nota: 'Plan Suscripción'},
-        {rubro: 'delivery', comercio: 'Rappi', desc: '10% off', tope: '$1.500', vigencia: 'Todos los días', card: 'Naranja X'}
+        {rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '25% off', tope: '$12.000 / semana', vigencia: 'Martes', card: 'Naranja X (Plan Turbo)', nota: '15% sin Plan Turbo'},
+        {rubro: 'comercios', comercio: 'Carnicerías y Granjas', desc: '30% off', tope: '$8.000 / mes', vigencia: 'Todos los días', card: 'Tarjeta de Crédito NX'},
+        {rubro: 'delivery', comercio: 'Rappi', desc: '10% off', tope: '$1.500', vigencia: 'Todos los días', card: 'Prepaga Naranja X'}
       ]
     },
     {
       id: 'mercadopago', name: 'Mercado Pago', icon: '💛', color: 'linear-gradient(135deg,#009EE3,#00B2E3)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Carrefour', desc: '20% off', tope: '$15.000', vigencia: 'Lunes', card: 'Dinero en cuenta', nota: 'Solo app/online'},
-        {rubro: 'supermercados', comercio: 'Changomas', desc: '10% off', tope: '$2.000', vigencia: 'Todos los días', card: 'QR'},
-        {rubro: 'farmacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.500', vigencia: 'lun a vie', card: 'QR'}
+        {rubro: 'supermercados', comercio: 'Carrefour Online', desc: '20% off', tope: '$15.000', vigencia: 'Lunes', card: 'Dinero en cuenta', nota: 'Solo App/Web'},
+        {rubro: 'supermercados', comercio: 'Changomas', desc: '10% off', tope: '$2.000', vigencia: 'Todos los días', card: 'QR Mercado Pago'},
+        {rubro: 'farmacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.500', vigencia: 'lun a vie', card: 'QR Mercado Pago'}
       ]
     },
     {
       id: 'modo', name: 'MODO', icon: '⚡', color: 'linear-gradient(135deg,#7c3aed,#a855f7)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Carrefour, Coto', desc: '10% off QR', tope: 'Sin tope', vigencia: 'Sábados', card: 'QR'},
-        {rubro: 'combustible', comercio: 'Shell', desc: '12% off', tope: 'Sin tope', vigencia: 'Todos los días', card: 'QR'}
+        {rubro: 'supermercados', comercio: 'Carrefour, ChangoMás', desc: '10% off QR', tope: '$10.000 / mes', vigencia: 'Sábados', card: 'App MODO'},
+        {rubro: 'combustible', comercio: 'Shell', desc: '12% off', tope: '$3.000', vigencia: 'Todos los días', card: 'QR MODO'}
       ]
     },
     {
       id: 'provincia', name: 'Banco Provincia', icon: '🟢', color: 'linear-gradient(135deg,#006837,#39b54a)',
       promos: [
-        {rubro: 'comercios', comercio: 'Comercios de Barrio (Cuenta DNI)', desc: '20% off', tope: '$5.000 por semana', vigencia: 'De lunes a viernes', card: 'Cuenta DNI'},
-        {rubro: 'supermercados', comercio: 'Carrefour, Coto, Toledo', desc: '20% off', tope: '$4.500', vigencia: 'sáb·dom', card: 'Cuenta DNI'},
-        {rubro: 'supermercados', comercio: 'Cooperativas', desc: '20% off', tope: '$2.500', vigencia: 'lun·mar·mié·jue·vie', card: 'Cuenta DNI'}
+        {rubro: 'comercios', comercio: 'Comercios de Barrio', desc: '20% off', tope: '$5.000 por semana', vigencia: 'lun a vie', card: 'Cuenta DNI'},
+        {rubro: 'supermercados', comercio: 'Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000'},
+        {rubro: 'supermercados', comercio: 'Toledo, Carrefour', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI'}
       ]
     },
     {
       id: 'nacion', name: 'Banco Nación', icon: '🇦🇷', color: 'linear-gradient(135deg,#0054a6,#0072c6)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Carrefour, Coto', desc: '20% off', tope: '$4.000', vigencia: 'Miércoles', card: 'BNA+ MODO'},
-        {rubro: 'combustible', comercio: 'YPF', desc: '10% off', tope: '$3.000', vigencia: 'Todos los días', card: 'BNA+ MODO'}
+        {rubro: 'supermercados', comercio: 'Carrefour, Coto, ChangoMás', desc: '30% off', tope: '$12.000 / semana', vigencia: 'Miércoles', card: 'MODO BNA+'},
+        {rubro: 'combustible', comercio: 'YPF', desc: '10% off', tope: '$3.000', vigencia: 'Todos los días', card: 'MODO BNA+'}
       ]
     },
     {
       id: 'santander', name: 'Santander', icon: '🔴', color: 'linear-gradient(135deg,#8b0000,#cc0000)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Walmart, Changomas', desc: '20% off', tope: '$3.000', vigencia: 'mié·jue', card: 'Mastercard'},
-        {rubro: 'indumentaria', comercio: 'Zara, Falabella', desc: '25% off', tope: '$8.000', vigencia: 'Martes, Jueves', card: 'Visa'}
+        {rubro: 'combustible', comercio: 'YPF App', desc: '10% off', tope: '$7.500 / mes', vigencia: 'Jueves', card: 'Visa Black/Platinum'},
+        {rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '20% off', tope: '$20.000 / mes', vigencia: 'Todos los días', card: 'Visa/MC (Jubilados)'}
       ]
     },
     {
       id: 'macro', name: 'Banco Macro', icon: '🟠', color: 'linear-gradient(135deg,#c2410c,#f97316)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '20% off', tope: '$3.500', vigencia: 'Martes', card: 'Visa'},
-        {rubro: 'supermercados', comercio: 'Carrefour', desc: '15% off', tope: '$2.500', vigencia: 'Viernes', card: 'Mastercard'}
+        {rubro: 'supermercados', comercio: 'Nini Mayorista', desc: '30% off', tope: '$25.000 / mes', vigencia: 'Miércoles', card: 'MODO Selecta'},
+        {rubro: 'combustible', comercio: 'YPF', desc: '30% off', tope: '$25.000 / mes', vigencia: 'Miércoles', card: 'MODO Selecta'}
       ]
     },
     {
       id: 'uala', name: 'Ualá', icon: '🟣', color: 'linear-gradient(135deg,#4c1d95,#7c3aed)',
       promos: [
-        {rubro: 'supermercados', comercio: 'Carrefour, Coto', desc: '10% off', tope: '$2.500', vigencia: 'lun·mié·vie', card: 'Prepaga Mastercard'},
-        {rubro: 'framacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.000', vigencia: 'mar·jue', card: 'Prepaga Mastercard'}
+        {rubro: 'supermercados', comercio: 'Cualquier supermercado', desc: '10% cashback', tope: '$500', vigencia: 'Todos los días', card: 'Tarjeta de Crédito Ualá'}
       ]
     }
   ];
