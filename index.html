@@ -569,7 +569,7 @@ let BANKS = [
 /* USER profile — persistent en localStorage */
 // Fix bug: si guardaban vacío (ej: se quitó la última), el fallback "['galicia',...]" no se debe forzar.
 let storedCardsStr = localStorage.getItem('cqp_cards');
-let userCards = storedCardsStr ? JSON.parse(storedCardsStr) : ["galicia","naranjax","mercadopago"];
+let userCards = storedCardsStr ? JSON.parse(storedCardsStr) : [];
 
 /* ============================================================
    NAVIGATION
@@ -709,8 +709,9 @@ function renderPromos(rubro='todos'){
     if(!promos.length) return;
     // Ordenar: primero las que son hoy
     promos.sort((a,b)=>promoEsHoy(b.vigencia)?1:-1);
-    promasHoyCount+=promos.filter(p=>promoEsHoy(p.vigencia)).length;
-    const active=userCards.includes(bank.id);
+    const esMiBanco = userCards.includes(bank.id);
+    promasHoyCount += promos.filter(p => promoEsHoy(p.vigencia) && esMiBanco).length;
+    const active = esMiBanco;
     const el=document.createElement('div');
     el.className='promo-card';
     el.style.opacity=active?1:0.55;
@@ -743,9 +744,17 @@ function renderPromos(rubro='todos'){
     list.appendChild(el);
   });
 
-  // Banner resumen 
+  // Banner resumen: Solo mostramos si hay bancos activos
   const banner=document.getElementById('promos-summary-banner');
-  if(banner) banner.textContent=`✅ ${promasHoyCount} promos activas hoy · ${BANKS.length} bancos`;
+  if(banner) {
+    if (userCards.length > 0) {
+      const activeBanksCount = BANKS.filter(b => userCards.includes(b.id)).length;
+      banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;"><span class="badge badge-green">✔</span> ${promasHoyCount} promos en tus ${activeBanksCount} bancos</span>`;
+      banner.closest('.banner-container')?.style.setProperty('display', 'block');
+    } else {
+      banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;">💡 Seleccioná tus bancos en "Mis Tarjetas"</span>`;
+    }
+  }
 
   if(!list.children.length){
     list.innerHTML='<div class="card" style="text-align:center;padding:28px;color:var(--text3)">Sin promos en esta categoría hoy 🤷</div>';
