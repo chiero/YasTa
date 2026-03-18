@@ -526,6 +526,7 @@ let BANKS = [
   {
     id: 'naranjax', name: 'Naranja X', icon: '🍊', color: 'linear-gradient(135deg,#ea580c,#f97316)',
     promos: [
+      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '25% off', tope: '$12.000 / mes', vigencia: 'Martes', card: 'Naranja X', nota: '15% sin comercios adheridos'},
       {rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '25% off', tope: '$12.000 / semana', vigencia: 'Martes', card: 'Naranja X (Plan Turbo)', nota: '15% sin Plan Turbo'},
       {rubro: 'comercios', comercio: 'Carnicerías y Granjas', desc: '30% off', tope: '$8.000 / mes', vigencia: 'Todos los días', card: 'Tarjeta de Crédito NX'},
       {rubro: 'delivery', comercio: 'Rappi', desc: '10% off', tope: '$1.500', vigencia: 'Todos los días', card: 'Prepaga Naranja X'}
@@ -551,13 +552,14 @@ let BANKS = [
     id: 'provincia', name: 'Banco Provincia', icon: '🟢', color: 'linear-gradient(135deg,#006837,#39b54a)',
     promos: [
       {rubro: 'comercios', comercio: 'Comercios de Barrio', desc: '20% off', tope: '$5.000 por semana', vigencia: 'lun a vie', card: 'Cuenta DNI'},
-      {rubro: 'supermercados', comercio: 'Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000'},
-      {rubro: 'supermercados', comercio: 'Toledo, Carrefour', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI'}
+      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000'},
+      {rubro: 'supermercados', comercio: 'Toledo, Carrefour, Coto', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI'}
     ]
   },
   {
     id: 'nacion', name: 'Banco Nación', icon: '🇦🇷', color: 'linear-gradient(135deg,#0054a6,#0072c6)',
     promos: [
+      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '5% off', tope: '$5.000 / semana', vigencia: 'Todos los días', card: 'MODO BNA+', nota: 'Exclusivo Tienda Física'},
       {rubro: 'supermercados', comercio: 'Carrefour, Coto, ChangoMás', desc: '30% off', tope: '$12.000 / semana', vigencia: 'Miércoles', card: 'MODO BNA+'},
       {rubro: 'combustible', comercio: 'YPF', desc: '10% off', tope: '$3.000', vigencia: 'Todos los días', card: 'MODO BNA+'}
     ]
@@ -855,8 +857,13 @@ const COMPARE_DB={
     {name:'Mercado Pago QR',detail:'15% off · Tope $2.500 · lun a vie',pct:'-15%',color:'var(--green)',badge:''},
   ],
   'dia':[
-    {name:'Mercado Pago QR',detail:'10% off · Sin tope · Solo miércoles',pct:'-10%',color:'var(--green)',badge:'MIÉRCOLES'},
-    {name:'Banco Provincia (Cta DNI)',detail:'20% off · Tope $8.000 · Solo lunes',pct:'-20%',color:'var(--accent)',badge:'LUNES'},
+    {name:'Mercado Pago QR',detail:'10% off · Sin tope · Miércoles (Dinero en cuenta)',pct:'-10%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'Naranja X',detail:'25% off · Tope $12.000/cuenta · Todos los Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
+    {name:'Banco Provincia (Cta DNI)',detail:'20% off · Tope $8.000 · Todos los Lunes',pct:'-20%',color:'var(--green)',badge:'LUNES'},
+    {name:'Banco Ciudad (MODO)',detail:'20% off · Tope $20.000/mes · Todos los Lunes',pct:'-20%',color:'var(--green)',badge:'LUNES'},
+    {name:'Prex (Online)',detail:'25% off · Tope $10.000/mes · Todos los Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
+    {name:'MODO (Varios Bancos)',detail:'20% off · Tope $20.000/mes · Vie/Sáb',pct:'-20%',color:'var(--accent)',badge:'FIN DE SEMANA'},
+    {name:'Banco Nación (BNA+)',detail:'5% off · Tope $5.000/semana · Todos los días',pct:'-5%',color:'var(--accent)',badge:''},
   ],
   'coto':[
     {name:'Banco Nación (BNA+)',detail:'30% off · Tope $12.000/semana · Miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},

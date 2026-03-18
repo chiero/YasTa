@@ -1,5 +1,5 @@
 {
-  "updatedAsOf": "2026-03-18T13:40:20.794Z",
+  "updatedAsOf": "2026-03-18T13:58:45.067Z",
   "banks": [
     {
       "id": "galicia",
@@ -40,6 +40,15 @@
       "icon": "🍊",
       "color": "linear-gradient(135deg,#ea580c,#f97316)",
       "promos": [
+        {
+          "rubro": "supermercados",
+          "comercio": "Supermercado Día",
+          "desc": "25% off",
+          "tope": "$12.000 / mes",
+          "vigencia": "Martes",
+          "card": "Naranja X",
+          "nota": "15% sin comercios adheridos"
+        },
         {
           "rubro": "supermercados",
           "comercio": "Jumbo, Disco, Vea",
@@ -149,7 +158,7 @@
         },
         {
           "rubro": "supermercados",
-          "comercio": "Día",
+          "comercio": "Supermercado Día",
           "desc": "20% off",
           "tope": "$8.000",
           "vigencia": "Lunes",
@@ -158,7 +167,7 @@
         },
         {
           "rubro": "supermercados",
-          "comercio": "Toledo, Carrefour",
+          "comercio": "Toledo, Carrefour, Coto",
           "desc": "20% off",
           "tope": "Sin tope",
           "vigencia": "Miércoles",
@@ -172,6 +181,15 @@
       "icon": "🇦🇷",
       "color": "linear-gradient(135deg,#0054a6,#0072c6)",
       "promos": [
+        {
+          "rubro": "supermercados",
+          "comercio": "Supermercado Día",
+          "desc": "5% off",
+          "tope": "$5.000 / semana",
+          "vigencia": "Todos los días",
+          "card": "MODO BNA+",
+          "nota": "Exclusivo Tienda Física"
+        },
         {
           "rubro": "supermercados",
           "comercio": "Carrefour, Coto, ChangoMás",

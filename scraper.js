@@ -25,6 +25,7 @@ async function runScraper() {
     {
       id: 'naranjax', name: 'Naranja X', icon: '🍊', color: 'linear-gradient(135deg,#ea580c,#f97316)',
       promos: [
+        {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '25% off', tope: '$12.000 / mes', vigencia: 'Martes', card: 'Naranja X', nota: '15% sin comercios adheridos'},
         {rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '25% off', tope: '$12.000 / semana', vigencia: 'Martes', card: 'Naranja X (Plan Turbo)', nota: '15% sin Plan Turbo'},
         {rubro: 'comercios', comercio: 'Carnicerías y Granjas', desc: '30% off', tope: '$8.000 / mes', vigencia: 'Todos los días', card: 'Tarjeta de Crédito NX'},
         {rubro: 'delivery', comercio: 'Rappi', desc: '10% off', tope: '$1.500', vigencia: 'Todos los días', card: 'Prepaga Naranja X'}
@@ -50,13 +51,14 @@ async function runScraper() {
       id: 'provincia', name: 'Banco Provincia', icon: '🟢', color: 'linear-gradient(135deg,#006837,#39b54a)',
       promos: [
         {rubro: 'comercios', comercio: 'Comercios de Barrio', desc: '20% off', tope: '$5.000 por semana', vigencia: 'lun a vie', card: 'Cuenta DNI'},
-        {rubro: 'supermercados', comercio: 'Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000'},
-        {rubro: 'supermercados', comercio: 'Toledo, Carrefour', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI'}
+        {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000'},
+        {rubro: 'supermercados', comercio: 'Toledo, Carrefour, Coto', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI'}
       ]
     },
     {
       id: 'nacion', name: 'Banco Nación', icon: '🇦🇷', color: 'linear-gradient(135deg,#0054a6,#0072c6)',
       promos: [
+        {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '5% off', tope: '$5.000 / semana', vigencia: 'Todos los días', card: 'MODO BNA+', nota: 'Exclusivo Tienda Física'},
         {rubro: 'supermercados', comercio: 'Carrefour, Coto, ChangoMás', desc: '30% off', tope: '$12.000 / semana', vigencia: 'Miércoles', card: 'MODO BNA+'},
         {rubro: 'combustible', comercio: 'YPF', desc: '10% off', tope: '$3.000', vigencia: 'Todos los días', card: 'MODO BNA+'}
       ]
