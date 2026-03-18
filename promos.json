@@ -1,5 +1,5 @@
 {
-  "updatedAsOf": "2026-03-18T13:12:53.636Z",
+  "updatedAsOf": "2026-03-18T13:40:20.794Z",
   "banks": [
     {
       "id": "galicia",
@@ -73,6 +73,15 @@
       "icon": "💛",
       "color": "linear-gradient(135deg,#009EE3,#00B2E3)",
       "promos": [
+        {
+          "rubro": "supermercados",
+          "comercio": "Supermercado Día",
+          "desc": "10% off",
+          "tope": "Sin tope",
+          "vigencia": "Miércoles",
+          "card": "QR Mercado Pago",
+          "nota": "Aplica dinero en cuenta"
+        },
         {
           "rubro": "supermercados",
           "comercio": "Carrefour Online",

@@ -534,6 +534,7 @@ let BANKS = [
   {
     id: 'mercadopago', name: 'Mercado Pago', icon: '💛', color: 'linear-gradient(135deg,#009EE3,#00B2E3)',
     promos: [
+      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '10% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'QR Mercado Pago', nota: 'Aplica dinero en cuenta'},
       {rubro: 'supermercados', comercio: 'Carrefour Online', desc: '20% off', tope: '$15.000', vigencia: 'Lunes', card: 'Dinero en cuenta', nota: 'Solo App/Web'},
       {rubro: 'supermercados', comercio: 'Changomas', desc: '10% off', tope: '$2.000', vigencia: 'Todos los días', card: 'QR Mercado Pago'},
       {rubro: 'farmacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.500', vigencia: 'lun a vie', card: 'QR Mercado Pago'}
@@ -853,12 +854,16 @@ const COMPARE_DB={
   'farmacity':[
     {name:'Mercado Pago QR',detail:'15% off · Tope $2.500 · lun a vie',pct:'-15%',color:'var(--green)',badge:''},
   ],
+  'dia':[
+    {name:'Mercado Pago QR',detail:'10% off · Sin tope · Solo miércoles',pct:'-10%',color:'var(--green)',badge:'MIÉRCOLES'},
+    {name:'Banco Provincia (Cta DNI)',detail:'20% off · Tope $8.000 · Solo lunes',pct:'-20%',color:'var(--accent)',badge:'LUNES'},
+  ],
   'coto':[
     {name:'Banco Nación (BNA+)',detail:'30% off · Tope $12.000/semana · Miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},
     {name:'MODO QR',detail:'10% off · Sin tope · Sábados',pct:'-10%',color:'var(--green)',badge:'SÁBADOS'},
   ],
 };
-const QUICK=[{label:'🛒 Carrefour',key:'carrefour'},{label:'⛽ YPF',key:'ypf'},{label:'🍕 PedidosYa',key:'pedidosya'},{label:'💊 Farmacity',key:'farmacity'},{label:'🛵 Rappi',key:'rappi'},{label:'👗 Falabella',key:'falabella'},{label:'🛒 Coto',key:'coto'},{label:'🫰 Disco',key:'disco'},{label:'🛍️ Walmart',key:'walmart'}];
+const QUICK=[{label:'🛒 Carrefour',key:'carrefour'},{label:'🔴 Día',key:'dia'},{label:'⛽ YPF',key:'ypf'},{label:'🍕 PedidosYa',key:'pedidosya'},{label:'💊 Farmacity',key:'farmacity'},{label:'🛵 Rappi',key:'rappi'},{label:'🛒 Coto',key:'coto'},{label:'🫰 Disco',key:'disco'},{label:'🛍️ Walmart',key:'walmart'}];
 
 function initComparador(){
   const qc=document.getElementById('quick-chips');

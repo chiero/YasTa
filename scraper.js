@@ -33,6 +33,7 @@ async function runScraper() {
     {
       id: 'mercadopago', name: 'Mercado Pago', icon: '💛', color: 'linear-gradient(135deg,#009EE3,#00B2E3)',
       promos: [
+        {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '10% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'QR Mercado Pago', nota: 'Aplica dinero en cuenta'},
         {rubro: 'supermercados', comercio: 'Carrefour Online', desc: '20% off', tope: '$15.000', vigencia: 'Lunes', card: 'Dinero en cuenta', nota: 'Solo App/Web'},
         {rubro: 'supermercados', comercio: 'Changomas', desc: '10% off', tope: '$2.000', vigencia: 'Todos los días', card: 'QR Mercado Pago'},
         {rubro: 'farmacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.500', vigencia: 'lun a vie', card: 'QR Mercado Pago'}
