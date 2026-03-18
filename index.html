@@ -715,7 +715,14 @@ function renderPromos(rubro='todos'){
   // Contamos promos activas hoy
   let promasHoyCount=0;
 
-  BANKS.forEach(bank=>{
+  // Ordenamos bancos: seleccionados arriba
+  const sortedBanks = [...BANKS].sort((a,b)=>{
+    const sA = userCards.includes(a.id)?1:0;
+    const sB = userCards.includes(b.id)?1:0;
+    return sB - sA;
+  });
+
+  sortedBanks.forEach(bank=>{
     if(!bank.promos) return;
     let promos=bank.promos.filter(p=>rubro==='todos'||p.rubro===rubro);
     if(!promos.length) return;
