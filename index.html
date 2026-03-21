@@ -605,6 +605,12 @@ let BANKS = [
 // Fix bug: si guardaban vacío (ej: se quitó la última), el fallback "['galicia',...]" no se debe forzar.
 let storedCardsStr = localStorage.getItem('cqp_cards');
 let userCards = storedCardsStr ? JSON.parse(storedCardsStr) : [];
+const MODO_BANKS = ['galicia', 'santander', 'bbva', 'macro', 'nacion', 'ciudad', 'icbc', 'patagonia', 'hsbc', 'brubank', 'hipotecario', 'comafi', 'itau', 'supervielle', 'credicoop', 'bancor', 'naranjax', 'reba', 'columbia', 'del_sol'];
+
+/* Helper to check if MODO should be active */
+function isModoActive() {
+  return userCards.some(id => MODO_BANKS.includes(id));
+}
 
 /* ============================================================
    NAVIGATION
@@ -661,7 +667,10 @@ async function fetchDolar(){
 ============================================================ */
 function renderHome(dolarData){
   // AI recommendation
-  const myBanks=BANKS.filter(b=>userCards.includes(b.id));
+  let effectiveUserCards = [...userCards];
+  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
+  const myBanks=BANKS.filter(b=>effectiveUserCards.includes(b.id));
   let bestPromo=null;
   for(const b of myBanks){
     if (!b.promos) continue;
@@ -692,7 +701,9 @@ function renderHome(dolarData){
   const hp=document.getElementById('home-promos');
   hp.innerHTML='';
   let todaysPromos=[];
-  BANKS.filter(b=>userCards.includes(b.id)).forEach(b=>{
+  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
+  BANKS.filter(b=>effectiveUserCards.includes(b.id)).forEach(b=>{
     if(b.promos) {
       b.promos.forEach(p=>{
         if (promoEsHoy(p.vigencia)) {
@@ -739,9 +750,13 @@ function renderPromos(rubro='todos'){
   let promasHoyCount=0;
 
   // Ordenamos bancos: seleccionados arriba
+  let effectiveUserCards = [...userCards];
+  const modoActive = isModoActive();
+  if (modoActive && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
   const sortedBanks = [...BANKS].sort((a,b)=>{
-    const sA = userCards.includes(a.id)?1:0;
-    const sB = userCards.includes(b.id)?1:0;
+    const sA = effectiveUserCards.includes(a.id)?1:0;
+    const sB = effectiveUserCards.includes(b.id)?1:0;
     return sB - sA;
   });
 
@@ -751,7 +766,7 @@ function renderPromos(rubro='todos'){
     if(!promos.length) return;
     // Ordenar: primero las que son hoy
     promos.sort((a,b)=>promoEsHoy(b.vigencia)?1:-1);
-    const esMiBanco = userCards.includes(bank.id);
+    const esMiBanco = effectiveUserCards.includes(bank.id);
     promasHoyCount += promos.filter(p => promoEsHoy(p.vigencia) && esMiBanco).length;
     const active = esMiBanco;
     const el=document.createElement('div');
@@ -789,9 +804,9 @@ function renderPromos(rubro='todos'){
   // Banner resumen: Solo mostramos si hay bancos activos
   const banner=document.getElementById('promos-summary-banner');
   if(banner) {
-    if (userCards.length > 0) {
-      const activeBanksCount = BANKS.filter(b => userCards.includes(b.id)).length;
-      banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;"><span class="badge badge-green">✔</span> ${promasHoyCount} promos en tus ${activeBanksCount} bancos</span>`;
+    if (effectiveUserCards.length > 0) {
+      const activeBanksCount = BANKS.filter(b => effectiveUserCards.includes(b.id) && b.id !== 'modo').length;
+      banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;"><span class="badge badge-green">✔</span> ${promasHoyCount} promos con tus ${activeBanksCount} bancos ${modoActive ? '+ MODO' : ''}</span>`;
       banner.closest('.banner-container')?.style.setProperty('display', 'block');
     } else {
       banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;">💡 Seleccioná tus bancos en "Mis Tarjetas"</span>`;
@@ -826,7 +841,6 @@ const CARD_STYLES=[
   {id:'ciudad',name:'Banco Ciudad',sub:'Visa / Mastercard',network:'MC',color:'linear-gradient(135deg,#155e75,#0891b2)',text:'#fff'},
   // Billeteras / QR
   {id:'mercadopago',name:'Mercado Pago',sub:'Cuenta / Prepaga',network:'MP',color:'linear-gradient(135deg,#009EE3,#00B2E3)',text:'#fff'},
-  {id:'modo',name:'MODO',sub:'QR Bancario',network:'⚡',color:'linear-gradient(135deg,#7c3aed,#a855f7)',text:'#fff'},
   {id:'naranjax',name:'Naranja X',sub:'Tarjeta + Billetera',network:'NX',color:'linear-gradient(135deg,#ea580c,#f97316)',text:'#fff'},
   {id:'personalpay',name:'Personal Pay',sub:'Billetera digital',network:'📱',color:'linear-gradient(135deg,#701a75,#c026d3)',text:'#fff'},
   // Fintechs / Neobancos
@@ -875,7 +889,9 @@ function renderCards(){
 }
 function updateMatchCount(){
   let count=0;
-  BANKS.filter(b=>userCards.includes(b.id)).forEach(b=>count+=b.promos.length);
+  let effectiveUserCards = [...userCards];
+  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+  BANKS.filter(b=>effectiveUserCards.includes(b.id)).forEach(b=>count+=b.promos.length);
   document.getElementById('match-count').textContent=count;
 }
 
@@ -1160,9 +1176,12 @@ function obtenerMejorPromoHoy() {
   const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   const hoy = dias[new Date().getDay()];
   
+  let effectiveUserCards = [...userCards];
+  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
   // Buscar en el fallback local o cargado
   let mejor = '';
-  BANKS.forEach(b => {
+  BANKS.filter(b => effectiveUserCards.includes(b.id)).forEach(b => {
     b.promos.forEach(p => {
       if (p.vigencia.includes(hoy) || p.vigencia.toLowerCase().includes('todos los días')) {
         if (!mejor) mejor = `${b.name}: ${p.desc} en ${p.comercio}`;
