@@ -1,9 +1,10 @@
 {
-  "name": "ConQuePago — Tu asistente financiero",
-  "short_name": "ConQuePago",
+  "name": "Yastá — Tu asistente financiero",
+  "short_name": "Yastá",
   "description": "Cruzá promos bancarias, tasas, dólar e inflación y optimizá tu plata hoy.",
   "start_url": "/index.html",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0D0F14",
   "theme_color": "#0D0F14",
   "icons": [
@@ -17,6 +18,18 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Promociones",
+      "url": "/index.html#promos",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Comparador",
+      "url": "/index.html#comparador",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
