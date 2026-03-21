@@ -69,6 +69,7 @@ body{font-family:var(--font);background:var(--bg0);color:var(--text1);min-height
   font-size:16px;transition:all 0.2s;color:var(--text2);
 }
 .theme-toggle:hover{background:var(--bg3);color:var(--text1)}
+.theme-toggle.active-notify{color:var(--green);border-color:var(--green)}
 .date-badge{font-size:12px;color:var(--text3);background:var(--glass);border:1px solid var(--glass-border);padding:6px 10px;border-radius:8px}
 
 /* ===== BOTTOM NAV ===== */
@@ -359,6 +360,7 @@ body{font-family:var(--font);background:var(--bg0);color:var(--text1);min-height
     <div class="logo-text">Yas<span>tá</span></div>
   </div>
   <div class="topbar-right">
+    <button class="theme-toggle" onclick="setupNotifications()" id="btn-notify-top" title="Configurar Alertas">🔔</button>
     <div class="date-badge" id="date-badge">lun 16 mar</div>
     <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
   </div>
@@ -373,16 +375,6 @@ body{font-family:var(--font);background:var(--bg0);color:var(--text1);min-height
     <div class="ai-main" id="ai-main-text">Cargando tu recomendación personalizada…</div>
     <div class="ai-sub" id="ai-sub-text"></div>
     <div class="ai-tags" id="ai-tags"></div>
-  </div>
-
-  <!-- NOTIFICATIONS CARD -->
-  <div class="match-banner" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(147,51,234,0.05)); border-color:rgba(59,130,246,0.2)">
-    <div class="rec-icon">🔔</div>
-    <div class="promo-pill-body">
-      <div class="promo-pill-title">Alertas Diarias</div>
-      <div class="promo-pill-sub">Recibí las mejores promos cada mañana.</div>
-    </div>
-    <button class="filter-btn active" onclick="setupNotifications()" id="btn-notify">Activar</button>
   </div>
 
   <div class="section-label">🔥 Tus Beneficios de Hoy</div>
@@ -1122,15 +1114,16 @@ async function setupNotifications() {
 }
 
 function updateNotifyUI(active) {
-  const btn = document.getElementById('btn-notify');
+  const btn = document.getElementById('btn-notify-top');
   if (btn) {
     if (active) {
-      btn.textContent = 'Activo';
-      btn.style.background = 'var(--green)';
-      btn.onclick = null;
+      btn.textContent = '🔕';
+      btn.title = 'Alertas Activas';
+      btn.classList.add('active-notify');
+      // Podríamos incluso cambiarle el color con CSS
     } else {
-      btn.textContent = 'Activar';
-      btn.style.background = 'var(--accent)';
+      btn.textContent = '🔔';
+      btn.title = 'Activar Alertas';
     }
   }
 }
