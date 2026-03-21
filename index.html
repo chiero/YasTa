@@ -375,6 +375,16 @@ body{font-family:var(--font);background:var(--bg0);color:var(--text1);min-height
     <div class="ai-tags" id="ai-tags"></div>
   </div>
 
+  <!-- NOTIFICATIONS CARD -->
+  <div class="match-banner" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(147,51,234,0.05)); border-color:rgba(59,130,246,0.2)">
+    <div class="rec-icon">🔔</div>
+    <div class="promo-pill-body">
+      <div class="promo-pill-title">Alertas Diarias</div>
+      <div class="promo-pill-sub">Recibí las mejores promos cada mañana.</div>
+    </div>
+    <button class="filter-btn active" onclick="setupNotifications()" id="btn-notify">Activar</button>
+  </div>
+
   <div class="section-label">🔥 Tus Beneficios de Hoy</div>
   <div id="home-promos"></div>
 
@@ -1058,6 +1068,46 @@ function initMapIfNeeded() {
       console.log('Geo error:', err);
       // fallback markers logic
       L.marker([centerLat + 0.005, centerLng + 0.005]).addTo(myMap).bindPopup('<b>⛽ YPF</b>');
+    });
+  }
+}
+
+/* ============================================================
+   NOTIFICATIONS
+============================================================ */
+async function setupNotifications() {
+  if (!('Notification' in window)) {
+    alert('Tu navegador no soporta notificaciones.');
+    return;
+  }
+  
+  const permission = await Notification.requestPermission();
+  if (permission === 'granted') {
+    updateNotifyUI(true);
+    showTestNotification();
+  } else {
+    alert('Permiso denegado. Podés activarlo en la configuración del sitio.');
+  }
+}
+
+function updateNotifyUI(active) {
+  const btn = document.getElementById('btn-notify');
+  if (active) {
+    btn.textContent = 'Activa';
+    btn.style.background = 'var(--green)';
+    btn.onclick = null;
+  }
+}
+
+function showTestNotification() {
+  if (navigator.serviceWorker.controller) {
+    navigator.serviceWorker.ready.then(registration => {
+      registration.showNotification('¡Yastá activa!', {
+        body: 'Cada mañana te avisaremos qué tarjeta usar.',
+        icon: './icon-192.png',
+        badge: './icon-192.png',
+        tag: 'yasta-welcome'
+      });
     });
   }
 }
