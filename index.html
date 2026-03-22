@@ -1,751 +1,1744 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="dark">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Yastá — Tu asistente financiero diario</title>
-<meta name="description" content="Cruzá promos bancarias, tasas, dólar e inflación y optimizá tu plata hoy."/>
-<meta name="theme-color" content="#0D0F14" id="theme-color-meta">
-<link rel="manifest" href="manifest.json">
-<!-- iOS PWA tags -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Yastá">
-<link rel="apple-touch-icon" href="icon-192.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yastá — Tu asistente financiero diario</title>
+  <meta name="description" content="Cruzá promos bancarias, tasas, dólar e inflación y optimizá tu plata hoy." />
+  <meta name="theme-color" content="#0D0F14" id="theme-color-meta">
+  <link rel="manifest" href="manifest.json">
+  <!-- iOS PWA tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Yastá">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<style>
-/* ===== RESET + TOKENS ===== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg0:#0D0F14;--bg1:#141720;--bg2:#1C2030;--bg3:#252A3A;
-  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
-  --accent:#3B82F6;--accent2:#8B5CF6;--green:#10B981;--amber:#F59E0B;--red:#EF4444;
-  --text1:#F0F2F8;--text2:#9BA3BB;--text3:#5A6278;
-  --card-shadow:0 4px 24px rgba(0,0,0,0.4);
-  --r-sm:10px;--r-md:16px;--r-lg:22px;--r-xl:28px;
-  --font:'Outfit',system-ui,sans-serif;
-  --nav-h:72px;
-}
-[data-theme="light"]{
-  --bg0:#F0F4FF;--bg1:#FFFFFF;--bg2:#EFF2FA;--bg3:#E4E8F5;
-  --glass:rgba(59,130,246,0.05);--glass-border:rgba(59,130,246,0.15);
-  --text1:#0D1117;--text2:#4B5563;--text3:#9CA3AF;
-  --card-shadow:0 4px 16px rgba(59,130,246,0.12);
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg0);color:var(--text1);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:var(--nav-h)}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET + TOKENS ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:4px}
+    :root {
+      --bg0: #0D0F14;
+      --bg1: #141720;
+      --bg2: #1C2030;
+      --bg3: #252A3A;
+      --glass: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent: #3B82F6;
+      --accent2: #8B5CF6;
+      --green: #10B981;
+      --amber: #F59E0B;
+      --red: #EF4444;
+      --text1: #F0F2F8;
+      --text2: #9BA3BB;
+      --text3: #5A6278;
+      --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      --r-sm: 10px;
+      --r-md: 16px;
+      --r-lg: 22px;
+      --r-xl: 28px;
+      --font: 'Outfit', system-ui, sans-serif;
+      --nav-h: 72px;
+    }
 
-/* ===== TOP BAR ===== */
-.topbar{
-  position:sticky;top:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 20px;
-  background:rgba(13,15,20,0.85);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--glass-border);
-}
-[data-theme="light"] .topbar{background:rgba(240,244,255,0.9)}
-.topbar-logo{display:flex;align-items:center;gap:10px}
-.logo-icon{
-  width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:700;color:#fff;letter-spacing:-1px;
-  box-shadow:0 2px 12px rgba(59,130,246,0.4);
-}
-.logo-text{font-size:20px;font-weight:700;letter-spacing:-0.5px}
-.logo-text span{color:var(--accent)}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.theme-toggle{
-  width:36px;height:36px;border-radius:10px;border:1px solid var(--glass-border);
-  background:var(--glass);cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:16px;transition:all 0.2s;color:var(--text2);
-}
-.theme-toggle:hover{background:var(--bg3);color:var(--text1)}
-.theme-toggle.active-notify{color:var(--green);border-color:var(--green)}
-.date-badge{font-size:12px;color:var(--text3);background:var(--glass);border:1px solid var(--glass-border);padding:6px 10px;border-radius:8px}
+    [data-theme="light"] {
+      --bg0: #F0F4FF;
+      --bg1: #FFFFFF;
+      --bg2: #EFF2FA;
+      --bg3: #E4E8F5;
+      --glass: rgba(59, 130, 246, 0.05);
+      --glass-border: rgba(59, 130, 246, 0.15);
+      --text1: #0D1117;
+      --text2: #4B5563;
+      --text3: #9CA3AF;
+      --card-shadow: 0 4px 16px rgba(59, 130, 246, 0.12);
+    }
 
-/* ===== BOTTOM NAV ===== */
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);
-  background:rgba(20,23,32,0.95);
-  backdrop-filter:blur(20px);
-  border-top:1px solid var(--glass-border);
-  display:flex;justify-content:space-around;align-items:center;
-  z-index:100;padding:0 8px;
-}
-[data-theme="light"] .bottom-nav{background:rgba(255,255,255,0.95)}
-.nav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
-  padding:8px 4px;border-radius:var(--r-sm);cursor:pointer;
-  transition:all 0.2s;color:var(--text3);border:none;background:transparent;
-}
-.nav-item .nav-icon{font-size:22px;transition:transform 0.2s}
-.nav-item .nav-label{font-size:10px;font-weight:500;letter-spacing:0.3px}
-.nav-item.active{color:var(--accent)}
-.nav-item.active .nav-icon{transform:scale(1.15)}
-.nav-item:hover{color:var(--text2)}
+    html {
+      scroll-behavior: smooth
+    }
 
-/* ===== SCREENS ===== */
-.screen{display:none;padding:20px;max-width:480px;margin:0 auto;animation:fadeIn 0.25s ease}
-.screen.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    body {
+      font-family: var(--font);
+      background: var(--bg0);
+      color: var(--text1);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: var(--nav-h)
+    }
 
-/* ===== CARDS ===== */
-.card{
-  background:var(--bg1);border:1px solid var(--glass-border);
-  border-radius:var(--r-lg);padding:18px;margin-bottom:14px;
-  box-shadow:var(--card-shadow);transition:transform 0.15s,box-shadow 0.15s;
-}
-.card:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(0,0,0,0.5)}
-.card.glass{background:var(--glass);backdrop-filter:blur(12px)}
-.card.accent-border{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent), var(--card-shadow)}
-.card.green-border{border-color:var(--green);box-shadow:0 0 0 1px var(--green), var(--card-shadow)}
-.card.amber-border{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber), var(--card-shadow)}
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px
+    }
 
-/* ===== SECTION TITLE ===== */
-.section-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin:20px 0 10px}
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
 
-/* ===== BADGES ===== */
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;letter-spacing:0.02em}
-.badge-blue{background:rgba(59,130,246,0.15);color:#60A5FA}
-.badge-green{background:rgba(16,185,129,0.15);color:#34D399}
-.badge-amber{background:rgba(245,158,11,0.15);color:#FCD34D}
-.badge-red{background:rgba(239,68,68,0.15);color:#FCA5A5}
-.badge-purple{background:rgba(139,92,246,0.15);color:#A78BFA}
-.badge-gray{background:var(--bg3);color:var(--text3)}
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg3);
+      border-radius: 4px
+    }
 
-/* ===== SCREEN 1: HOME ===== */
-.ai-card{
-  background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.15));
-  border:1px solid rgba(59,130,246,0.3);border-radius:var(--r-xl);padding:22px;
-  margin-bottom:16px;position:relative;overflow:hidden;
-}
-.ai-card::before{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:140px;height:140px;border-radius:50%;
-  background:radial-gradient(circle,rgba(139,92,246,0.15),transparent 70%);
-}
-.ai-greeting{font-size:13px;color:var(--accent);font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.ai-main{font-size:20px;font-weight:700;line-height:1.25;margin-bottom:12px}
-.ai-main em{color:var(--green);font-style:normal}
-.ai-sub{font-size:13px;color:var(--text2);line-height:1.5}
-.ai-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+    /* ===== TOP BAR ===== */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(13, 15, 20, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
 
-.rates-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
-.rate-item{background:var(--bg1);border:1px solid var(--glass-border);border-radius:var(--r-md);padding:14px 12px;text-align:center;cursor:pointer;transition:all 0.2s}
-.rate-item:hover{background:var(--bg2);transform:scale(1.02)}
-.rate-icon{font-size:20px;margin-bottom:6px}
-.rate-val{font-size:18px;font-weight:700;line-height:1;margin-bottom:4px}
-.rate-label{font-size:10px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
-.rate-change{font-size:11px;font-weight:600}
-.rate-change.up{color:var(--red)}
-.rate-change.down{color:var(--green)}
-.rate-change.flat{color:var(--text3)}
+    [data-theme="light"] .topbar {
+      background: rgba(240, 244, 255, 0.9)
+    }
 
-.promo-pill{
-  display:flex;align-items:center;gap:12px;padding:14px 16px;
-  background:var(--bg1);border:1px solid var(--glass-border);border-radius:var(--r-md);
-  margin-bottom:10px;cursor:pointer;transition:all 0.2s;
-}
-.promo-pill:hover{background:var(--bg2);transform:translateX(2px)}
-.promo-pill-icon{font-size:26px;flex-shrink:0}
-.promo-pill-body{flex:1;min-width:0}
-.promo-pill-title{font-size:14px;font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.promo-pill-sub{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.promo-pill-pct{font-size:22px;font-weight:800;color:var(--green);flex-shrink:0}
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
 
-/* ===== HOY BADGE ===== */
-.badge-hoy{background:rgba(16,185,129,0.2);color:#34D399;border:1px solid rgba(16,185,129,0.4);animation:hoy-pulse 2s ease-in-out infinite}
-@keyframes hoy-pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.3)}50%{box-shadow:0 0 0 4px rgba(16,185,129,0)}}
-.promo-hoy-row{background:rgba(16,185,129,0.05);border-left:2px solid var(--green);padding-left:10px;border-radius:0 8px 8px 0}
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -1px;
+      box-shadow: 0 2px 12px rgba(59, 130, 246, 0.4);
+    }
 
-/* ===== SCREEN 2: PROMOS ===== */
-.filter-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px;-ms-overflow-style:none;scrollbar-width:none}
-.filter-scroll::-webkit-scrollbar{display:none}
-.filter-btn{
-  flex-shrink:0;padding:7px 16px;border-radius:30px;border:1px solid var(--glass-border);
-  background:var(--bg2);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;
-  transition:all 0.2s;font-family:var(--font);white-space:nowrap;
-}
-.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 12px rgba(59,130,246,0.35)}
-.filter-btn:hover:not(.active){background:var(--bg3);color:var(--text1)}
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px
+    }
 
-.promo-card{background:var(--bg1);border:1px solid var(--glass-border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:12px;transition:transform 0.2s}
-.promo-card:hover{transform:translateY(-1px)}
-.promo-card-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--glass-border)}
-.bank-logo{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.promo-card-head-info{flex:1}
-.bank-name{font-size:15px;font-weight:600}
-.bank-promos-count{font-size:12px;color:var(--text3)}
-.promo-card-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px}
-.promo-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.promo-row-left{font-size:13px;color:var(--text2);flex:1}
-.promo-row-left strong{color:var(--text1)}
-.promo-row-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.pct-big{font-size:20px;font-weight:800;color:var(--green)}
-.promo-detail{font-size:11px;color:var(--text3);margin-top:2px}
+    .logo-text span {
+      color: var(--accent)
+    }
 
-/* ===== SCREEN 3: MIS TARJETAS ===== */
-.wallet-card{
-  border-radius:var(--r-xl);padding:24px;margin-bottom:16px;position:relative;
-  overflow:hidden;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;
-  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
-}
-.wallet-card:hover{transform:scale(1.01);box-shadow:0 12px 40px rgba(0,0,0,0.5)}
-.wallet-chip{width:36px;height:28px;border-radius:6px;background:rgba(255,255,255,0.3);margin-bottom:12px}
-.wallet-number{font-size:16px;font-weight:500;letter-spacing:2px;opacity:0.9}
-.wallet-footer{display:flex;justify-content:space-between;align-items:flex-end}
-.wallet-name{font-size:13px;font-weight:600;opacity:0.85;text-transform:uppercase;letter-spacing:0.05em}
-.wallet-network{font-size:18px;font-weight:800;letter-spacing:-0.5px}
-.wallet-toggle{
-  position:absolute;top:16px;right:16px;
-  width:44px;height:26px;border-radius:14px;border:2px solid rgba(255,255,255,0.4);
-  background:rgba(255,255,255,0.15);cursor:pointer;transition:all 0.3s;display:flex;align-items:center;
-}
-.wallet-toggle::after{
-  content:'';width:18px;height:18px;border-radius:50%;background:#fff;
-  margin-left:2px;transition:transform 0.3s;
-}
-.wallet-card.active-card .wallet-toggle{background:rgba(255,255,255,0.4);border-color:rgba(255,255,255,0.6)}
-.wallet-card.active-card .wallet-toggle::after{transform:translateX(18px)}
-.wallet-card.inactive-card{opacity:0.4;filter:grayscale(0.5)}
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
 
-.match-banner{
-  display:flex;align-items:center;gap:12px;padding:14px 16px;
-  background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(59,130,246,0.1));
-  border:1px solid rgba(16,185,129,0.25);border-radius:var(--r-md);margin-bottom:16px;
-}
-.match-count{font-size:28px;font-weight:800;color:var(--green)}
-.match-text{font-size:14px;color:var(--text2);line-height:1.4}
-.match-text strong{color:var(--text1)}
+    .theme-toggle {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s;
+      color: var(--text2);
+    }
 
-/* ===== SCREEN 4: COMPARADOR ===== */
-.search-box{position:relative;margin-bottom:16px}
-.search-input{
-  width:100%;padding:16px 50px 16px 20px;border-radius:var(--r-lg);
-  border:1.5px solid var(--glass-border);background:var(--bg1);
-  color:var(--text1);font-family:var(--font);font-size:15px;
-  transition:all 0.2s;outline:none;
-}
-.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,0.15)}
-.search-input::placeholder{color:var(--text3)}
-.search-btn{
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  width:36px;height:36px;border-radius:10px;background:var(--accent);
-  border:none;color:#fff;cursor:pointer;font-size:16px;
-  display:flex;align-items:center;justify-content:center;transition:all 0.2s;
-}
-.search-btn:hover{background:#2563EB;transform:translateY(-50%) scale(1.05)}
+    .theme-toggle:hover {
+      background: var(--bg3);
+      color: var(--text1)
+    }
 
-.quick-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.quick-chip{
-  padding:8px 14px;border-radius:20px;border:1px solid var(--glass-border);
-  background:var(--bg1);color:var(--text2);font-size:13px;cursor:pointer;
-  transition:all 0.2s;font-family:var(--font);
-}
-.quick-chip:hover{background:var(--bg3);color:var(--text1)}
+    .theme-toggle.active-notify {
+      color: var(--green);
+      border-color: var(--green)
+    }
 
-.compare-result{display:none}
-.compare-result.visible{display:block;animation:fadeIn 0.3s ease}
-.result-title{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.rank-item{
-  display:flex;align-items:center;gap:14px;padding:14px 16px;
-  border-radius:var(--r-md);margin-bottom:10px;border:1px solid var(--glass-border);
-  background:var(--bg1);transition:all 0.2s;
-}
-.rank-item:first-child{border-color:var(--green);background:rgba(16,185,129,0.07)}
-.rank-num{font-size:22px;font-weight:800;width:32px;text-align:center;flex-shrink:0}
-.rank-num.gold{color:#F59E0B}
-.rank-num.silver{color:#9CA3AF}
-.rank-num.bronze{color:#92400E}
-.rank-body{flex:1}
-.rank-name{font-size:14px;font-weight:600}
-.rank-detail{font-size:12px;color:var(--text2);margin-top:2px}
-.rank-pct{font-size:20px;font-weight:800;flex-shrink:0}
+    .date-badge {
+      font-size: 12px;
+      color: var(--text3);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      padding: 6px 10px;
+      border-radius: 8px
+    }
 
-/* ===== SCREEN 5: AHORRO ===== */
-.dolar-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.dolar-item{
-  background:var(--bg1);border:1px solid var(--glass-border);
-  border-radius:var(--r-md);padding:16px;text-align:center;
-}
-.dolar-tipo{font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
-.dolar-compra{font-size:13px;color:var(--text2);margin-bottom:2px}
-.dolar-venta{font-size:24px;font-weight:800;color:var(--accent)}
-.dolar-spread{font-size:11px;color:var(--text3);margin-top:4px}
+    /* ===== BOTTOM NAV ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      background: rgba(20, 23, 32, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      padding: 0 8px;
+    }
 
-.inv-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--glass-border)}
-.inv-row:last-child{border-bottom:none}
-.inv-label{font-size:14px;color:var(--text2)}
-.inv-val{font-size:15px;font-weight:700}
-.inv-val.positive{color:var(--green)}
-.inv-val.negative{color:var(--red)}
-.inv-val.neutral{color:var(--text1)}
+    [data-theme="light"] .bottom-nav {
+      background: rgba(255, 255, 255, 0.95)
+    }
 
-.rec-box{
-  background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(59,130,246,0.08));
-  border:1px solid rgba(16,185,129,0.3);border-radius:var(--r-lg);
-  padding:20px;margin-top:14px;display:flex;align-items:flex-start;gap:14px;
-}
-.rec-icon{font-size:28px;flex-shrink:0}
-.rec-title{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--green)}
-.rec-body{font-size:13px;color:var(--text2);line-height:1.6}
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 4px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text3);
+      border: none;
+      background: transparent;
+    }
 
-/* ===== LOADING STATE ===== */
-.loading-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:12px;color:var(--text3);
-}
-.loading-dot{
-  width:6px;height:6px;border-radius:50%;background:var(--accent);
-  animation:pulse 1.2s ease-in-out infinite;
-}
-.loading-dot:nth-child(2){animation-delay:0.2s}
-.loading-dot:nth-child(3){animation-delay:0.4s}
-@keyframes pulse{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
-.skeleton{
-  background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%);
-  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;height:20px;
-}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-/* ===== MAPA ===== */
-.leaflet-container { z-index: 10; font-family:var(--font); }
-.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--bg1); color: var(--text1); border: 1px solid var(--glass-border); }
-.bank-logo svg, .promo-pill-icon svg, .wallet-logo-container svg { width: 100%; height: 100%; display: block; border-radius: inherit; }
-.wallet-logo-container { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,0.1); padding: 8px; margin-bottom: 12px; }
-.promo-pill-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--bg2); }
+    .nav-item .nav-icon {
+      font-size: 22px;
+      transition: transform 0.2s
+    }
 
-/* ===== SPLASH SCREEN ===== */
-#splash-screen {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: var(--bg0); z-index: 9999;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
-}
-#splash-screen.hidden { opacity: 0; visibility: hidden; }
-.splash-logo {
-  width: 72px; height: 72px; border-radius: 20px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px; font-weight: 700; color: #fff; letter-spacing: -2px;
-  box-shadow: 0 8px 32px rgba(59,130,246,0.5);
-  margin-bottom: 20px; animation: bounce 1.5s infinite;
-}
-.splash-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-.splash-text span { color: var(--accent); }
-@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-</style>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    .nav-item .nav-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.3px
+    }
+
+    .nav-item.active {
+      color: var(--accent)
+    }
+
+    .nav-item.active .nav-icon {
+      transform: scale(1.15)
+    }
+
+    .nav-item:hover {
+      color: var(--text2)
+    }
+
+    /* ===== SCREENS ===== */
+    .screen {
+      display: none;
+      padding: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+      animation: fadeIn 0.25s ease
+    }
+
+    .screen.active {
+      display: block
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--bg1);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-lg);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5)
+    }
+
+    .card.glass {
+      background: var(--glass);
+      backdrop-filter: blur(12px)
+    }
+
+    .card.accent-border {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), var(--card-shadow)
+    }
+
+    .card.green-border {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green), var(--card-shadow)
+    }
+
+    .card.amber-border {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 1px var(--amber), var(--card-shadow)
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 20px 0 10px
+    }
+
+    /* ===== BADGES ===== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.02em
+    }
+
+    .badge-blue {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60A5FA
+    }
+
+    .badge-green {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34D399
+    }
+
+    .badge-amber {
+      background: rgba(245, 158, 11, 0.15);
+      color: #FCD34D
+    }
+
+    .badge-red {
+      background: rgba(239, 68, 68, 0.15);
+      color: #FCA5A5
+    }
+
+    .badge-purple {
+      background: rgba(139, 92, 246, 0.15);
+      color: #A78BFA
+    }
+
+    .badge-gray {
+      background: var(--bg3);
+      color: var(--text3)
+    }
+
+    /* ===== SCREEN 1: HOME ===== */
+    .ai-card {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.15));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: var(--r-xl);
+      padding: 22px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+    }
+
+    .ai-greeting {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .ai-main {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 12px
+    }
+
+    .ai-main em {
+      color: var(--green);
+      font-style: normal
+    }
+
+    .ai-sub {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.5
+    }
+
+    .ai-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px
+    }
+
+    .rates-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px
+    }
+
+    .rate-item {
+      background: var(--bg1);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-md);
+      padding: 14px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s
+    }
+
+    .rate-item:hover {
+      background: var(--bg2);
+      transform: scale(1.02)
+    }
+
+    .rate-icon {
+      font-size: 20px;
+      margin-bottom: 6px
+    }
+
+    .rate-val {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 4px
+    }
+
+    .rate-label {
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em
+    }
+
+    .rate-change {
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .rate-change.up {
+      color: var(--red)
+    }
+
+    .rate-change.down {
+      color: var(--green)
+    }
+
+    .rate-change.flat {
+      color: var(--text3)
+    }
+
+    .promo-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg1);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-md);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .promo-pill:hover {
+      background: var(--bg2);
+      transform: translateX(2px)
+    }
+
+    .promo-pill-icon {
+      font-size: 26px;
+      flex-shrink: 0
+    }
+
+    .promo-pill-body {
+      flex: 1;
+      min-width: 0
+    }
+
+    .promo-pill-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .promo-pill-sub {
+      font-size: 12px;
+      color: var(--text2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .promo-pill-pct {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--green);
+      flex-shrink: 0
+    }
+
+    /* ===== HOY BADGE ===== */
+    .badge-hoy {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      animation: hoy-pulse 2s ease-in-out infinite
+    }
+
+    @keyframes hoy-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3)
+      }
+
+      50% {
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0)
+      }
+    }
+
+    .promo-hoy-row {
+      background: rgba(16, 185, 129, 0.05);
+      border-left: 2px solid var(--green);
+      padding-left: 10px;
+      border-radius: 0 8px 8px 0
+    }
+
+    /* ===== SCREEN 2: PROMOS ===== */
+    .filter-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      -ms-overflow-style: none;
+      scrollbar-width: none
+    }
+
+    .filter-scroll::-webkit-scrollbar {
+      display: none
+    }
+
+    .filter-btn {
+      flex-shrink: 0;
+      padding: 7px 16px;
+      border-radius: 30px;
+      border: 1px solid var(--glass-border);
+      background: var(--bg2);
+      color: var(--text2);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font);
+      white-space: nowrap;
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35)
+    }
+
+    .filter-btn:hover:not(.active) {
+      background: var(--bg3);
+      color: var(--text1)
+    }
+
+    .promo-card {
+      background: var(--bg1);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: 12px;
+      transition: transform 0.2s
+    }
+
+    .promo-card:hover {
+      transform: translateY(-1px)
+    }
+
+    .promo-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--glass-border)
+    }
+
+    .bank-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0
+    }
+
+    .promo-card-head-info {
+      flex: 1
+    }
+
+    .bank-name {
+      font-size: 15px;
+      font-weight: 600
+    }
+
+    .bank-promos-count {
+      font-size: 12px;
+      color: var(--text3)
+    }
+
+    .promo-card-body {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .promo-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px
+    }
+
+    .promo-row-left {
+      font-size: 13px;
+      color: var(--text2);
+      flex: 1
+    }
+
+    .promo-row-left strong {
+      color: var(--text1)
+    }
+
+    .promo-row-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0
+    }
+
+    .pct-big {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--green)
+    }
+
+    .promo-detail {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 2px
+    }
+
+    /* ===== SCREEN 3: MIS TARJETAS ===== */
+    .wallet-card {
+      border-radius: var(--r-xl);
+      padding: 24px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .wallet-card:hover {
+      transform: scale(1.01);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5)
+    }
+
+    .wallet-chip {
+      width: 36px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.3);
+      margin-bottom: 12px
+    }
+
+    .wallet-number {
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      opacity: 0.9
+    }
+
+    .wallet-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end
+    }
+
+    .wallet-name {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 0.05em
+    }
+
+    .wallet-network {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px
+    }
+
+    .wallet-toggle {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 26px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+    }
+
+    .wallet-toggle::after {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      margin-left: 2px;
+      transition: transform 0.3s;
+    }
+
+    .wallet-card.active-card .wallet-toggle {
+      background: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.6)
+    }
+
+    .wallet-card.active-card .wallet-toggle::after {
+      transform: translateX(18px)
+    }
+
+    .wallet-card.inactive-card {
+      opacity: 0.4;
+      filter: grayscale(0.5)
+    }
+
+    .match-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: var(--r-md);
+      margin-bottom: 16px;
+    }
+
+    .match-count {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--green)
+    }
+
+    .match-text {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.4
+    }
+
+    .match-text strong {
+      color: var(--text1)
+    }
+
+    /* ===== SCREEN 4: COMPARADOR ===== */
+    .search-box {
+      position: relative;
+      margin-bottom: 16px
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 50px 16px 20px;
+      border-radius: var(--r-lg);
+      border: 1.5px solid var(--glass-border);
+      background: var(--bg1);
+      color: var(--text1);
+      font-family: var(--font);
+      font-size: 15px;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15)
+    }
+
+    .search-input::placeholder {
+      color: var(--text3)
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .search-btn:hover {
+      background: #2563EB;
+      transform: translateY(-50%) scale(1.05)
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px
+    }
+
+    .quick-chip {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      background: var(--bg1);
+      color: var(--text2);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font);
+    }
+
+    .quick-chip:hover {
+      background: var(--bg3);
+      color: var(--text1)
+    }
+
+    .compare-result {
+      display: none
+    }
+
+    .compare-result.visible {
+      display: block;
+      animation: fadeIn 0.3s ease
+    }
+
+    .result-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: var(--r-md);
+      margin-bottom: 10px;
+      border: 1px solid var(--glass-border);
+      background: var(--bg1);
+      transition: all 0.2s;
+    }
+
+    .rank-item:first-child {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.07)
+    }
+
+    .rank-num {
+      font-size: 22px;
+      font-weight: 800;
+      width: 32px;
+      text-align: center;
+      flex-shrink: 0
+    }
+
+    .rank-num.gold {
+      color: #F59E0B
+    }
+
+    .rank-num.silver {
+      color: #9CA3AF
+    }
+
+    .rank-num.bronze {
+      color: #92400E
+    }
+
+    .rank-body {
+      flex: 1
+    }
+
+    .rank-name {
+      font-size: 14px;
+      font-weight: 600
+    }
+
+    .rank-detail {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 2px
+    }
+
+    .rank-pct {
+      font-size: 20px;
+      font-weight: 800;
+      flex-shrink: 0
+    }
+
+    /* ===== SCREEN 5: AHORRO ===== */
+    .dolar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px
+    }
+
+    .dolar-item {
+      background: var(--bg1);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-md);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .dolar-tipo {
+      font-size: 12px;
+      color: var(--text3);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px
+    }
+
+    .dolar-compra {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 2px
+    }
+
+    .dolar-venta {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent)
+    }
+
+    .dolar-spread {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 4px
+    }
+
+    .inv-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--glass-border)
+    }
+
+    .inv-row:last-child {
+      border-bottom: none
+    }
+
+    .inv-label {
+      font-size: 14px;
+      color: var(--text2)
+    }
+
+    .inv-val {
+      font-size: 15px;
+      font-weight: 700
+    }
+
+    .inv-val.positive {
+      color: var(--green)
+    }
+
+    .inv-val.negative {
+      color: var(--red)
+    }
+
+    .inv-val.neutral {
+      color: var(--text1)
+    }
+
+    .rec-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--r-lg);
+      padding: 20px;
+      margin-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .rec-icon {
+      font-size: 28px;
+      flex-shrink: 0
+    }
+
+    .rec-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--green)
+    }
+
+    .rec-body {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6
+    }
+
+    /* ===== LOADING STATE ===== */
+    .loading-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    .loading-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    .loading-dot:nth-child(2) {
+      animation-delay: 0.2s
+    }
+
+    .loading-dot:nth-child(3) {
+      animation-delay: 0.4s
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: scale(0.8)
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1)
+      }
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 6px;
+      height: 20px;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    /* ===== MAPA ===== */
+    .leaflet-container {
+      z-index: 10;
+      font-family: var(--font);
+    }
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: var(--bg1);
+      color: var(--text1);
+      border: 1px solid var(--glass-border);
+    }
+
+    .bank-logo svg,
+    .promo-pill-icon svg,
+    .wallet-logo-container svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: inherit;
+    }
+
+    .wallet-logo-container {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+
+    .promo-pill-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg2);
+    }
+
+    /* ===== SPLASH SCREEN ===== */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg0);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+    }
+
+    #splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -2px;
+      box-shadow: 0 8px 32px rgba(59, 130, 246, 0.5);
+      margin-bottom: 20px;
+      animation: bounce 1.5s infinite;
+    }
+
+    .splash-text {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .splash-text span {
+      color: var(--accent);
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .map-search-container {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      z-index: 20;
+      display: flex;
+      gap: 8px;
+    }
+
+    .map-search-input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      background: var(--bg1);
+      color: var(--text1);
+      font-family: var(--font);
+      font-size: 14px;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .map-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      background: var(--bg1);
+      color: var(--text1);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      transition: all 0.2s;
+    }
+
+    .map-btn:hover {
+      background: var(--bg2);
+      transform: scale(1.05);
+    }
+
+    .map-btn.primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+    }
+
+    .recenter-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 12px;
+      z-index: 20;
+    }
+
+    .custom-infowindow {
+      padding: 8px;
+      font-family: var(--font);
+      max-width: 220px;
+    }
+
+    .iw-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+      color: #111;
+    }
+
+    [data-theme="dark"] .iw-title {
+      color: var(--text1);
+    }
+
+    .iw-promo {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 6px;
+      padding: 6px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .iw-promo strong {
+      color: var(--green);
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- SPLASH SCREEN -->
-<div id="splash-screen">
-  <div class="splash-logo">Y!</div>
-  <div class="splash-text">Yas<span>tá</span></div>
-</div>
-
-<!-- TOP BAR -->
-<header class="topbar">
-  <div class="topbar-logo">
-    <div class="logo-icon">Y!</div>
-    <div class="logo-text">Yas<span>tá</span></div>
-  </div>
-  <div class="topbar-right">
-    <button class="theme-toggle" onclick="setupNotifications()" id="btn-notify-top" title="Configurar Alertas">🔔</button>
-    <div class="date-badge" id="date-badge">lun 16 mar</div>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
-  </div>
-</header>
-
-<!-- SCREENS -->
-
-<!-- ===== HOME ===== -->
-<div class="screen active" id="screen-home">
-  <div class="ai-card" id="ai-card">
-    <div class="ai-greeting">✨ Recomendación del día</div>
-    <div class="ai-main" id="ai-main-text">Cargando tu recomendación personalizada…</div>
-    <div class="ai-sub" id="ai-sub-text"></div>
-    <div class="ai-tags" id="ai-tags"></div>
+  <!-- SPLASH SCREEN -->
+  <div id="splash-screen">
+    <div class="splash-logo">Y!</div>
+    <div class="splash-text">Yas<span>tá</span></div>
   </div>
 
-  <div class="section-label">🔥 Tus Beneficios de Hoy</div>
-  <div id="home-promos"></div>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-logo">
+      <div class="logo-icon">Y!</div>
+      <div class="logo-text">Yas<span>tá</span></div>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-toggle" onclick="setupNotifications()" id="btn-notify-top"
+        title="Configurar Alertas">🔔</button>
+      <div class="date-badge" id="date-badge">lun 16 mar</div>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+    </div>
+  </header>
 
-  <div class="section-label">📲 Lleva Yastá en tu celular</div>
-  <div class="rec-box" style="margin-top:0; border-color:var(--glass-border); background:var(--bg1)">
-    <div class="rec-icon">🤖</div>
-    <div style="font-size:12px; color:var(--text2)">
-      <strong>Android:</strong> Abrí esta web en Chrome, tocá los 3 puntos y elegí <b>"Instalar aplicación"</b> o "Agregar a pantalla de inicio".<br/>
-      <span style="display:block;margin-top:4px"><strong>iOS (iPhone):</strong> Tocá el botón Compartir y elegí <b>"Agregar a inicio"</b>.</span>
+  <!-- SCREENS -->
+
+  <!-- ===== HOME ===== -->
+  <div class="screen active" id="screen-home">
+    <div class="ai-card" id="ai-card">
+      <div class="ai-greeting">✨ Recomendación del día</div>
+      <div class="ai-main" id="ai-main-text">Cargando tu recomendación personalizada…</div>
+      <div class="ai-sub" id="ai-sub-text"></div>
+      <div class="ai-tags" id="ai-tags"></div>
+    </div>
+
+    <div class="section-label">🔥 Tus Beneficios de Hoy</div>
+    <div id="home-promos"></div>
+
+    <div class="section-label">📲 Lleva Yastá en tu celular</div>
+    <div class="rec-box" style="margin-top:0; border-color:var(--glass-border); background:var(--bg1)">
+      <div class="rec-icon">🤖</div>
+      <div style="font-size:12px; color:var(--text2)">
+        <strong>Android:</strong> Abrí esta web en Chrome, tocá los 3 puntos y elegí <b>"Instalar aplicación"</b> o
+        "Agregar a pantalla de inicio".<br />
+        <span style="display:block;margin-top:4px"><strong>iOS (iPhone):</strong> Tocá el botón Compartir y elegí
+          <b>"Agregar a inicio"</b>.</span>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ===== PROMOS ===== -->
-<div class="screen" id="screen-promos">
-  <div class="section-label" style="margin-top:4px">💳 Promos por rubro</div>
-  <div class="filter-scroll" id="filter-scroll">
-    <button class="filter-btn active" onclick="filterPromos('todos',this)">Todos</button>
-    <button class="filter-btn" onclick="filterPromos('supermercados',this)">🛒 Supermercados</button>
-    <button class="filter-btn" onclick="filterPromos('combustible',this)">⛽ Combustible</button>
-    <button class="filter-btn" onclick="filterPromos('delivery',this)">🍕 Delivery</button>
-    <button class="filter-btn" onclick="filterPromos('indumentaria',this)">👗 Indumentaria</button>
-    <button class="filter-btn" onclick="filterPromos('electronica',this)">📱 Electrónica</button>
-    <button class="filter-btn" onclick="filterPromos('viajes',this)">✈️ Viajes</button>
-    <button class="filter-btn" onclick="filterPromos('farmacia',this)">💊 Farmacia</button>
+  <!-- ===== PROMOS ===== -->
+  <div class="screen" id="screen-promos">
+    <div class="section-label" style="margin-top:4px">💳 Promos por rubro</div>
+    <div class="filter-scroll" id="filter-scroll">
+      <button class="filter-btn active" onclick="filterPromos('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="filterPromos('supermercados',this)">🛒 Supermercados</button>
+      <button class="filter-btn" onclick="filterPromos('combustible',this)">⛽ Combustible</button>
+      <button class="filter-btn" onclick="filterPromos('delivery',this)">🍕 Delivery</button>
+      <button class="filter-btn" onclick="filterPromos('indumentaria',this)">👗 Indumentaria</button>
+      <button class="filter-btn" onclick="filterPromos('electronica',this)">📱 Electrónica</button>
+      <button class="filter-btn" onclick="filterPromos('viajes',this)">✈️ Viajes</button>
+      <button class="filter-btn" onclick="filterPromos('farmacia',this)">💊 Farmacia</button>
+    </div>
+    <div class="match-banner" style="margin-bottom:12px;padding:12px">
+      <div class="match-text" id="promos-summary-banner" style="font-weight:600;color:var(--text1)">Cargando promos...
+      </div>
+    </div>
+    <div id="promos-list"></div>
   </div>
-  <div class="match-banner" style="margin-bottom:12px;padding:12px">
-    <div class="match-text" id="promos-summary-banner" style="font-weight:600;color:var(--text1)">Cargando promos...</div>
-  </div>
-  <div id="promos-list"></div>
-</div>
 
-<!-- ===== MIS TARJETAS ===== -->
-<div class="screen" id="screen-cards">
-  <div class="match-banner">
-    <div class="match-count" id="match-count">—</div>
-    <div class="match-text">promos activas hoy con<br/><strong>tus tarjetas seleccionadas</strong></div>
+  <!-- ===== MIS TARJETAS ===== -->
+  <div class="screen" id="screen-cards">
+    <div class="match-banner">
+      <div class="match-count" id="match-count">—</div>
+      <div class="match-text">promos activas hoy con<br /><strong>tus tarjetas seleccionadas</strong></div>
+    </div>
+    <div class="section-label" style="margin-top:4px">💳 Mis medios de pago</div>
+    <div id="cards-list"></div>
   </div>
-  <div class="section-label" style="margin-top:4px">💳 Mis medios de pago</div>
-  <div id="cards-list"></div>
-</div>
 
-<!-- ===== COMPARADOR ===== -->
-<div class="screen" id="screen-compare">
-  <div class="section-label" style="margin-top:4px">🔍 ¿Dónde pagás?</div>
-  <div class="search-box">
-    <input class="search-input" id="compare-input" type="text" placeholder="Ej: Carrefour, YPF, Naranja X…" oninput="onCompareInput(this.value)"/>
-    <button class="search-btn" onclick="runCompare()">→</button>
+  <!-- ===== COMPARADOR ===== -->
+  <div class="screen" id="screen-compare">
+    <div class="section-label" style="margin-top:4px">🔍 ¿Dónde pagás?</div>
+    <div class="search-box">
+      <input class="search-input" id="compare-input" type="text" placeholder="Ej: Carrefour, YPF, Naranja X…"
+        oninput="onCompareInput(this.value)" />
+      <button class="search-btn" onclick="runCompare()">→</button>
+    </div>
+    <div class="quick-chips" id="quick-chips"></div>
+    <div class="compare-result" id="compare-result"></div>
   </div>
-  <div class="quick-chips" id="quick-chips"></div>
-  <div class="compare-result" id="compare-result"></div>
-</div>
 
-<!-- ===== AHORRO ===== -->
-<div class="screen" id="screen-savings">
-  <div class="section-label" style="margin-top:4px">💵 Cotizaciones en tiempo real</div>
-  <div class="dolar-grid" id="dolar-grid">
-    <div class="dolar-item"><div class="dolar-tipo">Cargando…</div><div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div></div>
-    <div class="dolar-item"><div class="dolar-tipo">Cargando…</div><div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div></div>
-    <div class="dolar-item"><div class="dolar-tipo">Cargando…</div><div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div></div>
-    <div class="dolar-item"><div class="dolar-tipo">Cargando…</div><div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div></div>
-  </div>
-  <div class="section-label">📊 Comparativa de rendimiento</div>
-  <div class="card">
-    <div class="inv-row"><span class="inv-label">📌 Plazo Fijo (TNA)</span><span class="inv-val neutral" id="inv-tf">63% anual</span></div>
-    <div class="inv-row"><span class="inv-label">🔥 Inflación proyectada</span><span class="inv-val negative" id="inv-inf">72% anual</span></div>
-    <div class="inv-row"><span class="inv-label">📈 Dólar MEP (variación mensual)</span><span class="inv-val positive" id="inv-mep-var">cargando…</span></div>
-    <div class="inv-row"><span class="inv-label">💼 Fondo FIMA Premium (TNA ref.)</span><span class="inv-val positive" id="inv-fima">~68% anual</span></div>
-    <div class="inv-row"><span class="inv-label">🏦 Cta. remunerada (Mercado Pago)</span><span class="inv-val neutral" id="inv-mp">~65% anual</span></div>
-  </div>
-  <div class="rec-box" id="savings-rec">
-    <div class="rec-icon">💡</div>
-    <div>
-      <div class="rec-title">Recomendación de ahorro del día</div>
-      <div class="rec-body" id="savings-rec-text">Analizando datos del mercado…</div>
+  <!-- ===== AHORRO ===== -->
+  <div class="screen" id="screen-savings">
+    <div class="section-label" style="margin-top:4px">💵 Cotizaciones en tiempo real</div>
+    <div class="dolar-grid" id="dolar-grid">
+      <div class="dolar-item">
+        <div class="dolar-tipo">Cargando…</div>
+        <div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div>
+      </div>
+      <div class="dolar-item">
+        <div class="dolar-tipo">Cargando…</div>
+        <div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div>
+      </div>
+      <div class="dolar-item">
+        <div class="dolar-tipo">Cargando…</div>
+        <div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div>
+      </div>
+      <div class="dolar-item">
+        <div class="dolar-tipo">Cargando…</div>
+        <div class="skeleton" style="width:80px;height:28px;margin:0 auto"></div>
+      </div>
+    </div>
+    <div class="section-label">📊 Comparativa de rendimiento</div>
+    <div class="card">
+      <div class="inv-row"><span class="inv-label">📌 Plazo Fijo (TNA)</span><span class="inv-val neutral"
+          id="inv-tf">63% anual</span></div>
+      <div class="inv-row"><span class="inv-label">🔥 Inflación proyectada</span><span class="inv-val negative"
+          id="inv-inf">72% anual</span></div>
+      <div class="inv-row"><span class="inv-label">📈 Dólar MEP (variación mensual)</span><span class="inv-val positive"
+          id="inv-mep-var">cargando…</span></div>
+      <div class="inv-row"><span class="inv-label">💼 Fondo FIMA Premium (TNA ref.)</span><span class="inv-val positive"
+          id="inv-fima">~68% anual</span></div>
+      <div class="inv-row"><span class="inv-label">🏦 Cta. remunerada (Mercado Pago)</span><span class="inv-val neutral"
+          id="inv-mp">~65% anual</span></div>
+    </div>
+    <div class="rec-box" id="savings-rec">
+      <div class="rec-icon">💡</div>
+      <div>
+        <div class="rec-title">Recomendación de ahorro del día</div>
+        <div class="rec-body" id="savings-rec-text">Analizando datos del mercado…</div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ===== MAPA ===== -->
-<div class="screen" id="screen-map">
-  <div class="match-banner" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(239,68,68,0.1)); border-color:rgba(245,158,11,0.25); align-items:flex-start;">
-    <div class="match-icon" style="font-size:24px; flex-shrink:0;">🚨</div>
-    <div class="match-text">
-      <strong>Importante:</strong> No todas las sucursales (ej. algunas de YPF) tienen beneficios con MODO o tu banco. ¡Verificá siempre en la caja antes de pagar!
+  <!-- ===== MAPA ===== -->
+  <div class="screen" id="screen-map">
+    <div class="match-banner"
+      style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(239,68,68,0.1)); border-color:rgba(245,158,11,0.25); align-items:flex-start;">
+      <div class="match-icon" style="font-size:24px; flex-shrink:0;">🚨</div>
+      <div class="match-text">
+        <strong>Importante:</strong> No todas las sucursales (ej. algunas de YPF) tienen beneficios con MODO o tu banco.
+        ¡Verificá siempre en la caja antes de pagar!
+      </div>
+    </div>
+    <div class="card" style="padding:0; overflow:hidden; border-radius:var(--r-lg); position: relative;">
+      <div class="map-search-container">
+        <input type="text" id="map-search-input" class="map-search-input"
+          placeholder="Buscar comercios (YPF, Coto...)" />
+        <button class="map-btn primary" onclick="searchCommercesInMap()">🔍</button>
+      </div>
+      <div id="map" style="height:450px; width:100%; background:var(--bg2);"></div>
+      <button class="map-btn recenter-btn" onclick="recenterMap()" title="Mi ubicación">📍</button>
     </div>
   </div>
-  <div class="section-label" style="margin-top:4px">🗺️ Sucursales cercanas</div>
-  <div class="card" style="padding:0; overflow:hidden; border-radius:var(--r-lg);">
-    <div id="map" style="height:400px; width:100%; background:var(--bg2);"></div>
-  </div>
-</div>
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <button class="nav-item active" id="nav-home" onclick="goScreen('home')">
-    <span class="nav-icon">🏠</span><span class="nav-label">Inicio</span>
-  </button>
-  <button class="nav-item" id="nav-promos" onclick="goScreen('promos')">
-    <span class="nav-icon">🎁</span><span class="nav-label">Promos</span>
-  </button>
-  <button class="nav-item" id="nav-cards" onclick="goScreen('cards')">
-    <span class="nav-icon">💳</span><span class="nav-label">Tarjetas</span>
-  </button>
-  <button class="nav-item" id="nav-compare" onclick="goScreen('compare')">
-    <span class="nav-icon">🔍</span><span class="nav-label">Comparar</span>
-  </button>
-  <button class="nav-item" id="nav-map" onclick="goScreen('map'); initMapIfNeeded();">
-    <span class="nav-icon">🗺️</span><span class="nav-label">Mapa</span>
-  </button>
-  <button class="nav-item" id="nav-savings" onclick="goScreen('savings')">
-    <span class="nav-icon">📈</span><span class="nav-label">Ahorro</span>
-  </button>
-</nav>
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="goScreen('home')">
+      <span class="nav-icon">🏠</span><span class="nav-label">Inicio</span>
+    </button>
+    <button class="nav-item" id="nav-promos" onclick="goScreen('promos')">
+      <span class="nav-icon">🎁</span><span class="nav-label">Promos</span>
+    </button>
+    <button class="nav-item" id="nav-cards" onclick="goScreen('cards')">
+      <span class="nav-icon">💳</span><span class="nav-label">Tarjetas</span>
+    </button>
+    <button class="nav-item" id="nav-compare" onclick="goScreen('compare')">
+      <span class="nav-icon">🔍</span><span class="nav-label">Comparar</span>
+    </button>
+    <button class="nav-item" id="nav-map" onclick="goScreen('map'); initMapIfNeeded();">
+      <span class="nav-icon">🗺️</span><span class="nav-label">Mapa</span>
+    </button>
+    <button class="nav-item" id="nav-savings" onclick="goScreen('savings')">
+      <span class="nav-icon">📈</span><span class="nav-label">Ahorro</span>
+    </button>
+  </nav>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-/* ============================================================
-   DATA — Promos bancarias
-============================================================ */
-// ⚠️ Promos verificadas en sitios oficiales al 16/03/2026. Vigentes hasta el 31/03/2026.
-// Fuentes: carrefour.com.ar/descuentos-bancarios, naranjax.com/beneficios
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJLWDBkJip3DjXAIZkiKikG82XnxMCHgU&libraries=places"></script>
+  <script>
+    /* ============================================================
+       DATA — Promos bancarias
+    ============================================================ */
+    // ⚠️ Promos verificadas en sitios oficiales al 16/03/2026. Vigentes hasta el 31/03/2026.
+    // Fuentes: carrefour.com.ar/descuentos-bancarios, naranjax.com/beneficios
 
-/* Detecta si una promo es válida HOY (lun=1..dom=0) */
-function promoEsHoy(vigencia){
-  if(!vigencia) return false;
-  let v=vigencia.toLowerCase();
-  if(v.includes('todos')||v.includes('todo el mes')||v.includes('diariamente')) return true;
+    /* Detecta si una promo es válida HOY (lun=1..dom=0) */
+    function promoEsHoy(vigencia) {
+      if (!vigencia) return false;
+      let v = vigencia.toLowerCase();
+      if (v.includes('todos') || v.includes('todo el mes') || v.includes('diariamente')) return true;
 
-  // Expandir rangos comunes para que el chequeo por 'includes' detecte los días intermedios
-  v = v.replace(/lunes a viernes/g, 'lunes martes miercoles jueves viernes');
-  v = v.replace(/lun a vie/g, 'lun mar mie jue vie');
-  v = v.replace(/lunes a jueves/g, 'lunes martes miercoles jueves');
-  v = v.replace(/jueves a domingo/g, 'jueves viernes sabado domingo');
-  v = v.replace(/jue a dom/g, 'jue vie sab dom');
-  v = v.replace(/de lunes a viernes/g, 'lunes martes miercoles jueves viernes');
+      // Expandir rangos comunes para que el chequeo por 'includes' detecte los días intermedios
+      v = v.replace(/lunes a viernes/g, 'lunes martes miercoles jueves viernes');
+      v = v.replace(/lun a vie/g, 'lun mar mie jue vie');
+      v = v.replace(/lunes a jueves/g, 'lunes martes miercoles jueves');
+      v = v.replace(/jueves a domingo/g, 'jueves viernes sabado domingo');
+      v = v.replace(/jue a dom/g, 'jue vie sab dom');
+      v = v.replace(/de lunes a viernes/g, 'lunes martes miercoles jueves viernes');
 
-  const hoy=new Date().getDay(); // 0=dom,1=lun,2=mar,3=mié,4=jue,5=vie,6=sáb
-  const mapa={lun:1,mar:2,'mié':3,mie:3,jue:4,vie:5,'sáb':6,sab:6,dom:0,lunes:1,martes:2,'miércoles':3,miercoles:3,jueves:4,viernes:5,'sábado':6,sabado:6,domingo:0};
-  for(const [k,v2] of Object.entries(mapa)){
-    if(v.includes(k)&&hoy===v2) return true;
-  }
-  return false;
-}
-
-const BANK_LOGOS = {
-  galicia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#FA6400"/><text x="50" y="70" text-anchor="middle" font-size="60" fill="white" font-weight="900" font-family="Outfit">G</text></svg>`,
-  santander: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#EC0000"/><path d="M50 20 C65 35 65 55 50 80 C35 55 35 35 50 20" fill="white"/></svg>`,
-  bbva: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#14549C"/><text x="50" y="62" text-anchor="middle" font-size="24" fill="white" font-weight="900" font-family="Outfit">BBVA</text></svg>`,
-  macro: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#004481"/><text x="50" y="70" text-anchor="middle" font-size="55" fill="white" font-weight="bold" font-family="Outfit">M</text></svg>`,
-  nacion: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#0E7391"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">BNA</text></svg>`,
-  provincia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#279D2E"/><text x="50" y="70" text-anchor="middle" font-size="45" fill="white" font-weight="bold" font-family="Outfit">BP</text></svg>`,
-  ciudad: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#155e75"/><text x="50" y="70" text-anchor="middle" font-size="50" fill="white" font-weight="bold" font-family="Outfit">C</text></svg>`,
-  mercadopago: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#FFF059"/><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="#009EE3" stroke-width="8" fill="none"/></svg>`,
-  naranjax: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#F75000"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="900" font-family="Outfit">X</text></svg>`,
-  brubank: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#4c1d95"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="bold" font-family="Outfit">B</text></svg>`,
-  personalpay: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#701a75"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="bold" font-family="Outfit">P</text></svg>`,
-  uala: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#4c1d95"/><circle cx="50" cy="50" r="30" fill="white" opacity="0.2"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">U</text></svg>`,
-  lemon: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#c1ff00"/><circle cx="50" cy="50" r="30" fill="black"/><path d="M50 35 L58 50 L50 65 L42 50 Z" fill="#c1ff00"/></svg>`,
-  patagonia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#0033a0"/><text x="50" y="70" text-anchor="middle" font-size="60" fill="white" font-weight="bold" font-family="Outfit">P</text></svg>`,
-  hsbc: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#db0011"/><path d="M50 20 L80 50 L50 80 L20 50 Z" fill="white"/></svg>`,
-  icbc: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#c8102e"/><text x="50" y="70" text-anchor="middle" font-size="30" fill="white" font-weight="bold" font-family="Outfit">ICBC</text></svg>`,
-  modo: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#7c3aed"/><path d="M30 50 L50 20 L50 45 L70 45 L50 80 L50 55 Z" fill="white"/></svg>`
-};
-
-// Se llenará desde promos.json dinámicamente o usa fallback.
-let BANKS = [
-  {
-    id: 'galicia', name: 'Banco Galicia', icon: BANK_LOGOS.galicia, color: 'linear-gradient(135deg,#FA6400,#ff8c42)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Carrefour, Jumbo, Disco, Vea', desc: '25% off', tope: '$10.000 / semana', vigencia: 'Miércoles', card: 'MODO (App Galicia)', nota: 'Reintegro en cuenta'},
-      {rubro: 'combustible', comercio: 'YPF', desc: '15% off', tope: '$5.000 / mes', vigencia: 'Todos los días', card: 'MODO (App Galicia)'},
-      {rubro: 'delivery', comercio: 'PedidosYa', desc: '30% off', tope: '$2.500', vigencia: 'mar·jue', card: 'Mastercard Crédito'}
-    ]
-  },
-  {
-    id: 'naranjax', name: 'Naranja X', icon: BANK_LOGOS.naranjax, color: 'linear-gradient(135deg,#F75000,#ff7a33)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '25% off', tope: '$12.000 / mes', vigencia: 'Martes', card: 'Naranja X', nota: '15% sin comercios adheridos'},
-      {rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '25% off', tope: '$12.000 / semana', vigencia: 'Martes', card: 'Naranja X (Plan Turbo)', nota: '15% sin Plan Turbo'},
-      {rubro: 'comercios', comercio: 'Carnicerías y Granjas', desc: '30% off', tope: '$8.000 / mes', vigencia: 'Todos los días', card: 'Tarjeta de Crédito NX'},
-      {rubro: 'delivery', comercio: 'Rappi', desc: '10% off', tope: '$1.500', vigencia: 'Todos los días', card: 'Prepaga Naranja X'}
-    ]
-  },
-  {
-    id: 'mercadopago', name: 'Mercado Pago', icon: BANK_LOGOS.mercadopago, color: 'linear-gradient(135deg,#FFF059,#ffdf00)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '10% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'QR Mercado Pago', nota: 'Aplica dinero en cuenta'},
-      {rubro: 'supermercados', comercio: 'Carrefour Online', desc: '20% off', tope: '$15.000', vigencia: 'Lunes', card: 'Dinero en cuenta', nota: 'Solo App/Web'},
-      {rubro: 'supermercados', comercio: 'Changomas', desc: '10% off', tope: '$2.000', vigencia: 'Todos los días', card: 'QR Mercado Pago'},
-      {rubro: 'farmacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.500', vigencia: 'lun a vie', card: 'QR Mercado Pago'}
-    ]
-  },
-  {
-    id: 'modo', name: 'MODO', icon: BANK_LOGOS.modo, color: 'linear-gradient(135deg,#7c3aed,#a855f7)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / mes', vigencia: 'vie·sáb', card: 'QR MODO', nota: 'Mín. compra $30.000'},
-      {rubro: 'supermercados', comercio: 'Carrefour, ChangoMás', desc: '10% off QR', tope: '$10.000 / mes', vigencia: 'Sábados', card: 'App MODO'},
-      {rubro: 'combustible', comercio: 'Shell', desc: '12% off', tope: '$3.000', vigencia: 'Todos los días', card: 'QR MODO'}
-    ]
-  },
-  {
-    id: 'provincia', name: 'Banco Provincia', icon: BANK_LOGOS.provincia, color: 'linear-gradient(135deg,#279D2E,#34d399)',
-    promos: [
-      {rubro: 'comercios', comercio: 'Comercios de Barrio', desc: '20% off', tope: '$5.000 por semana', vigencia: 'lun a vie', card: 'Cuenta DNI'},
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000'},
-      {rubro: 'supermercados', comercio: 'Toledo, Carrefour, Coto', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI'}
-    ]
-  },
-  {
-    id: 'nacion', name: 'Banco Nación', icon: BANK_LOGOS.nacion, color: 'linear-gradient(135deg,#0E7391,#14b8a6)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '5% off', tope: '$5.000 / semana', vigencia: 'Todos los días', card: 'MODO BNA+', nota: 'Exclusivo Tienda Física'},
-      {rubro: 'supermercados', comercio: 'Carrefour, Coto, ChangoMás', desc: '30% off', tope: '$12.000 / semana', vigencia: 'Miércoles', card: 'MODO BNA+'},
-      {rubro: 'combustible', comercio: 'YPF', desc: '10% off', tope: '$3.000', vigencia: 'Todos los días', card: 'MODO BNA+'}
-    ]
-  },
-  {
-    id: 'bbva', name: 'BBVA', icon: BANK_LOGOS.bbva, color: 'linear-gradient(135deg,#14549C,#2563eb)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / mes', vigencia: 'vie·sáb', card: 'Crédito BBVA (MODO)', nota: 'Mín. $30.000'},
-      {rubro: 'supermercados', comercio: 'Coto', desc: '20% off', tope: '$25.000 / mes', vigencia: 'Martes', card: 'Crédito BBVA (MODO)', nota: 'Mín. $60.000'},
-      {rubro: 'supermercados', comercio: 'Carrefour', desc: '10% off', tope: 'Sin tope', vigencia: 'Sábados', card: 'Crédito BBVA (MODO)'},
-      {rubro: 'supermercados', comercio: 'Jumbo', desc: '20% off', tope: '$25.000 / mes', vigencia: 'mar·jue', card: 'Crédito BBVA (MODO)', nota: 'Mín. $100.000'},
-      {rubro: 'supermercados', comercio: 'Disco, Vea', desc: '20% off', tope: '$25.000 / mes', vigencia: 'vie·sáb·dom', card: 'Crédito BBVA (MODO)', nota: 'Mín. $100.000'},
-      {rubro: 'supermercados', comercio: 'Changomas', desc: '20% off', tope: '$20.000 / mes', vigencia: 'Miércoles', card: 'Crédito BBVA (MODO)', nota: 'Mín. $75.000'},
-      {rubro: 'supermercados', comercio: 'Makro', desc: '20% off', tope: '$20.000 / mes', vigencia: 'Jueves', card: 'Crédito BBVA (MODO)'}
-    ]
-  },
-  {
-    id: 'personalpay', name: 'Personal Pay', icon: BANK_LOGOS.personalpay, color: 'linear-gradient(135deg,#701a75,#c026d3)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / día', vigencia: 'Jueves', card: 'Personal Pay (Nivel 3)', nota: 'Mín. $25.000'},
-      {rubro: 'combustible', comercio: 'Shell', desc: '20% off', tope: '$2.000', vigencia: 'Todos los días', card: 'Visa Personal Pay'}
-    ]
-  },
-  {
-    id: 'ciudad', name: 'Banco Ciudad', icon: BANK_LOGOS.ciudad, color: 'linear-gradient(135deg,#155e75,#0891b2)',
-    promos: [
-      {rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / mes', vigencia: 'Lunes', card: 'MODO (Banco Ciudad)', nota: 'Mín. $20.000'}
-    ]
-  }
-];
-
-/* USER profile — persistent en localStorage */
-// Fix bug: si guardaban vacío (ej: se quitó la última), el fallback "['galicia',...]" no se debe forzar.
-let storedCardsStr = localStorage.getItem('cqp_cards');
-let userCards = storedCardsStr ? JSON.parse(storedCardsStr) : [];
-const MODO_BANKS = ['galicia', 'santander', 'bbva', 'macro', 'nacion', 'ciudad', 'icbc', 'patagonia', 'hsbc', 'brubank', 'hipotecario', 'comafi', 'itau', 'supervielle', 'credicoop', 'bancor', 'naranjax', 'reba', 'columbia', 'del_sol'];
-
-/* Helper to check if MODO should be active */
-function isModoActive() {
-  return userCards.some(id => MODO_BANKS.includes(id));
-}
-
-/* ============================================================
-   NAVIGATION
-============================================================ */
-function goScreen(name){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');
-  document.getElementById('nav-'+name).classList.add('active');
-}
-
-/* ============================================================
-   THEME
-============================================================ */
-let isDark = true;
-function toggleTheme(){
-  isDark=!isDark;
-  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
-  document.querySelector('.theme-toggle').textContent=isDark?'🌙':'☀️';
-}
-
-/* ============================================================
-   DATE
-============================================================ */
-function setDate(){
-  const d=new Date();
-  const dias=['dom','lun','mar','mié','jue','vie','sáb'];
-  const meses=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  document.getElementById('date-badge').textContent=`${dias[d.getDay()]} ${d.getDate()} ${meses[d.getMonth()]}`;
-}
-
-/* ============================================================
-   API: DÓLAR
-============================================================ */
-async function fetchDolar(){
-  const fallback=[
-    {nombre:'Oficial',compra:1085,venta:1090},
-    {nombre:'MEP',compra:1318,venta:1325},
-    {nombre:'Blue',compra:1350,venta:1360},
-    {nombre:'Cripto',compra:1330,venta:1340},
-  ];
-  try{
-    const res=await fetch('https://dolarapi.com/v1/dolares',{signal:AbortSignal.timeout(5000)});
-    if(!res.ok) throw new Error();
-    const data=await res.json();
-    return data.filter(d=>['oficial','blue','mep','cripto'].includes(d.casa));
-  }catch{
-    return fallback;
-  }
-}
-
-/* ============================================================
-   RENDER: HOME
-============================================================ */
-function renderHome(dolarData){
-  // AI recommendation
-  let effectiveUserCards = [...userCards];
-  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
-
-  const myBanks=BANKS.filter(b=>effectiveUserCards.includes(b.id));
-  let bestPromo=null;
-  for(const b of myBanks){
-    if (!b.promos) continue;
-    const sup=b.promos.find(p=>p.rubro==='supermercados');
-    if(sup&&(!bestPromo||parseInt(sup.desc)>parseInt(bestPromo.pct))){
-      bestPromo={bank:b.name,icon:b.icon,...sup,pct:parseInt(sup.desc)};
+      const hoy = new Date().getDay(); // 0=dom,1=lun,2=mar,3=mié,4=jue,5=vie,6=sáb
+      const mapa = { lun: 1, mar: 2, 'mié': 3, mie: 3, jue: 4, vie: 5, 'sáb': 6, sab: 6, dom: 0, lunes: 1, martes: 2, 'miércoles': 3, miercoles: 3, jueves: 4, viernes: 5, 'sábado': 6, sabado: 6, domingo: 0 };
+      for (const [k, v2] of Object.entries(mapa)) {
+        if (v.includes(k) && hoy === v2) return true;
+      }
+      return false;
     }
-  }
-  if(bestPromo){
-    document.getElementById('ai-main-text').innerHTML=`Hoy pagá con <em>${bestPromo.bank}</em> en supermercados y ahorrá <em>${bestPromo.desc}</em>`;
-    document.getElementById('ai-sub-text').textContent=`${bestPromo.comercio} · Tope ${bestPromo.tope} · ${bestPromo.vigencia}`;
-    document.getElementById('ai-tags').innerHTML=
-      `<span class="badge badge-green">✅ ${bestPromo.rubro}</span>`+
-      `<span class="badge badge-blue">💳 ${bestPromo.card}</span>`+
-      `<span class="badge badge-amber">⏱ Hoy</span>`;
-  }else{
-    const hasCards = userCards.length > 0;
-    if(hasCards) {
-      document.getElementById('ai-main-text').innerHTML='Revisá tus beneficios de hoy deslizando hacia abajo.';
-      document.getElementById('ai-sub-text').textContent='Agregamos toda la info para que estires tus ahorros.';
-    } else {
-      document.getElementById('ai-main-text').innerHTML='Activá tus tarjetas en <em>Mis Tarjetas</em> para ver recomendaciones personalizadas';
-      document.getElementById('ai-sub-text').textContent='Cuantas más tarjetas agregues, mejor será la recomendación.';
+
+    const BANK_LOGOS = {
+      galicia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#FA6400"/><text x="50" y="70" text-anchor="middle" font-size="60" fill="white" font-weight="900" font-family="Outfit">G</text></svg>`,
+      santander: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#EC0000"/><path d="M50 20 C65 35 65 55 50 80 C35 55 35 35 50 20" fill="white"/></svg>`,
+      bbva: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#14549C"/><text x="50" y="62" text-anchor="middle" font-size="24" fill="white" font-weight="900" font-family="Outfit">BBVA</text></svg>`,
+      macro: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#004481"/><text x="50" y="70" text-anchor="middle" font-size="55" fill="white" font-weight="bold" font-family="Outfit">M</text></svg>`,
+      nacion: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#0E7391"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">BNA</text></svg>`,
+      provincia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#279D2E"/><text x="50" y="70" text-anchor="middle" font-size="45" fill="white" font-weight="bold" font-family="Outfit">BP</text></svg>`,
+      ciudad: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#155e75"/><text x="50" y="70" text-anchor="middle" font-size="50" fill="white" font-weight="bold" font-family="Outfit">C</text></svg>`,
+      mercadopago: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#FFF059"/><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="#009EE3" stroke-width="8" fill="none"/></svg>`,
+      naranjax: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#F75000"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="900" font-family="Outfit">X</text></svg>`,
+      brubank: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#4c1d95"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="bold" font-family="Outfit">B</text></svg>`,
+      personalpay: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#701a75"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="bold" font-family="Outfit">P</text></svg>`,
+      uala: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#4c1d95"/><circle cx="50" cy="50" r="30" fill="white" opacity="0.2"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">U</text></svg>`,
+      lemon: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#c1ff00"/><circle cx="50" cy="50" r="30" fill="black"/><path d="M50 35 L58 50 L50 65 L42 50 Z" fill="#c1ff00"/></svg>`,
+      patagonia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#0033a0"/><text x="50" y="70" text-anchor="middle" font-size="60" fill="white" font-weight="bold" font-family="Outfit">P</text></svg>`,
+      hsbc: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#db0011"/><path d="M50 20 L80 50 L50 80 L20 50 Z" fill="white"/></svg>`,
+      icbc: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#c8102e"/><text x="50" y="70" text-anchor="middle" font-size="30" fill="white" font-weight="bold" font-family="Outfit">ICBC</text></svg>`,
+      modo: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#7c3aed"/><path d="M30 50 L50 20 L50 45 L70 45 L50 80 L50 55 Z" fill="white"/></svg>`
+    };
+
+    // Se llenará desde promos.json dinámicamente o usa fallback.
+    let BANKS = [
+      {
+        id: 'galicia', name: 'Banco Galicia', icon: BANK_LOGOS.galicia, color: 'linear-gradient(135deg,#FA6400,#ff8c42)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Carrefour, Jumbo, Disco, Vea', desc: '25% off', tope: '$10.000 / semana', vigencia: 'Miércoles', card: 'MODO (App Galicia)', nota: 'Reintegro en cuenta' },
+          { rubro: 'combustible', comercio: 'YPF', desc: '15% off', tope: '$5.000 / mes', vigencia: 'Todos los días', card: 'MODO (App Galicia)' },
+          { rubro: 'delivery', comercio: 'PedidosYa', desc: '30% off', tope: '$2.500', vigencia: 'mar·jue', card: 'Mastercard Crédito' }
+        ]
+      },
+      {
+        id: 'naranjax', name: 'Naranja X', icon: BANK_LOGOS.naranjax, color: 'linear-gradient(135deg,#F75000,#ff7a33)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '25% off', tope: '$12.000 / mes', vigencia: 'Martes', card: 'Naranja X', nota: '15% sin comercios adheridos' },
+          { rubro: 'supermercados', comercio: 'Jumbo, Disco, Vea', desc: '25% off', tope: '$12.000 / semana', vigencia: 'Martes', card: 'Naranja X (Plan Turbo)', nota: '15% sin Plan Turbo' },
+          { rubro: 'comercios', comercio: 'Carnicerías y Granjas', desc: '30% off', tope: '$8.000 / mes', vigencia: 'Todos los días', card: 'Tarjeta de Crédito NX' },
+          { rubro: 'delivery', comercio: 'Rappi', desc: '10% off', tope: '$1.500', vigencia: 'Todos los días', card: 'Prepaga Naranja X' }
+        ]
+      },
+      {
+        id: 'mercadopago', name: 'Mercado Pago', icon: BANK_LOGOS.mercadopago, color: 'linear-gradient(135deg,#FFF059,#ffdf00)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '10% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'QR Mercado Pago', nota: 'Aplica dinero en cuenta' },
+          { rubro: 'supermercados', comercio: 'Carrefour Online', desc: '20% off', tope: '$15.000', vigencia: 'Lunes', card: 'Dinero en cuenta', nota: 'Solo App/Web' },
+          { rubro: 'supermercados', comercio: 'Changomas', desc: '10% off', tope: '$2.000', vigencia: 'Todos los días', card: 'QR Mercado Pago' },
+          { rubro: 'farmacia', comercio: 'Farmacity', desc: '15% off', tope: '$2.500', vigencia: 'lun a vie', card: 'QR Mercado Pago' }
+        ]
+      },
+      {
+        id: 'modo', name: 'MODO', icon: BANK_LOGOS.modo, color: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / mes', vigencia: 'vie·sáb', card: 'QR MODO', nota: 'Mín. compra $30.000' },
+          { rubro: 'supermercados', comercio: 'Carrefour, ChangoMás', desc: '10% off QR', tope: '$10.000 / mes', vigencia: 'Sábados', card: 'App MODO' },
+          { rubro: 'combustible', comercio: 'Shell', desc: '12% off', tope: '$3.000', vigencia: 'Todos los días', card: 'QR MODO' }
+        ]
+      },
+      {
+        id: 'provincia', name: 'Banco Provincia', icon: BANK_LOGOS.provincia, color: 'linear-gradient(135deg,#279D2E,#34d399)',
+        promos: [
+          { rubro: 'comercios', comercio: 'Comercios de Barrio', desc: '20% off', tope: '$5.000 por semana', vigencia: 'lun a vie', card: 'Cuenta DNI' },
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$8.000', vigencia: 'Lunes', card: 'Cuenta DNI', nota: 'Mínimo ticket $25.000' },
+          { rubro: 'supermercados', comercio: 'Toledo, Carrefour, Coto', desc: '20% off', tope: 'Sin tope', vigencia: 'Miércoles', card: 'Cuenta DNI' }
+        ]
+      },
+      {
+        id: 'nacion', name: 'Banco Nación', icon: BANK_LOGOS.nacion, color: 'linear-gradient(135deg,#0E7391,#14b8a6)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '5% off', tope: '$5.000 / semana', vigencia: 'Todos los días', card: 'MODO BNA+', nota: 'Exclusivo Tienda Física' },
+          { rubro: 'supermercados', comercio: 'Carrefour, Coto, ChangoMás', desc: '30% off', tope: '$12.000 / semana', vigencia: 'Miércoles', card: 'MODO BNA+' },
+          { rubro: 'combustible', comercio: 'YPF', desc: '10% off', tope: '$3.000', vigencia: 'Todos los días', card: 'MODO BNA+' }
+        ]
+      },
+      {
+        id: 'bbva', name: 'BBVA', icon: BANK_LOGOS.bbva, color: 'linear-gradient(135deg,#14549C,#2563eb)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / mes', vigencia: 'vie·sáb', card: 'Crédito BBVA (MODO)', nota: 'Mín. $30.000' },
+          { rubro: 'supermercados', comercio: 'Coto', desc: '20% off', tope: '$25.000 / mes', vigencia: 'Martes', card: 'Crédito BBVA (MODO)', nota: 'Mín. $60.000' },
+          { rubro: 'supermercados', comercio: 'Carrefour', desc: '10% off', tope: 'Sin tope', vigencia: 'Sábados', card: 'Crédito BBVA (MODO)' },
+          { rubro: 'supermercados', comercio: 'Jumbo', desc: '20% off', tope: '$25.000 / mes', vigencia: 'mar·jue', card: 'Crédito BBVA (MODO)', nota: 'Mín. $100.000' },
+          { rubro: 'supermercados', comercio: 'Disco, Vea', desc: '20% off', tope: '$25.000 / mes', vigencia: 'vie·sáb·dom', card: 'Crédito BBVA (MODO)', nota: 'Mín. $100.000' },
+          { rubro: 'supermercados', comercio: 'Changomas', desc: '20% off', tope: '$20.000 / mes', vigencia: 'Miércoles', card: 'Crédito BBVA (MODO)', nota: 'Mín. $75.000' },
+          { rubro: 'supermercados', comercio: 'Makro', desc: '20% off', tope: '$20.000 / mes', vigencia: 'Jueves', card: 'Crédito BBVA (MODO)' }
+        ]
+      },
+      {
+        id: 'personalpay', name: 'Personal Pay', icon: BANK_LOGOS.personalpay, color: 'linear-gradient(135deg,#701a75,#c026d3)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / día', vigencia: 'Jueves', card: 'Personal Pay (Nivel 3)', nota: 'Mín. $25.000' },
+          { rubro: 'combustible', comercio: 'Shell', desc: '20% off', tope: '$2.000', vigencia: 'Todos los días', card: 'Visa Personal Pay' }
+        ]
+      },
+      {
+        id: 'ciudad', name: 'Banco Ciudad', icon: BANK_LOGOS.ciudad, color: 'linear-gradient(135deg,#155e75,#0891b2)',
+        promos: [
+          { rubro: 'supermercados', comercio: 'Supermercado Día', desc: '20% off', tope: '$20.000 / mes', vigencia: 'Lunes', card: 'MODO (Banco Ciudad)', nota: 'Mín. $20.000' }
+        ]
+      }
+    ];
+
+    /* USER profile — persistent en localStorage */
+    // Fix bug: si guardaban vacío (ej: se quitó la última), el fallback "['galicia',...]" no se debe forzar.
+    let storedCardsStr = localStorage.getItem('cqp_cards');
+    let userCards = storedCardsStr ? JSON.parse(storedCardsStr) : [];
+    const MODO_BANKS = ['galicia', 'santander', 'bbva', 'macro', 'nacion', 'ciudad', 'icbc', 'patagonia', 'hsbc', 'brubank', 'hipotecario', 'comafi', 'itau', 'supervielle', 'credicoop', 'bancor', 'naranjax', 'reba', 'columbia', 'del_sol'];
+
+    /* Helper to check if MODO should be active */
+    function isModoActive() {
+      return userCards.some(id => MODO_BANKS.includes(id));
     }
-  }
 
-  // Today Promos instead of Top Promos
-  const hp=document.getElementById('home-promos');
-  hp.innerHTML='';
-  let todaysPromos=[];
-  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    function goScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('screen-' + name).classList.add('active');
+      document.getElementById('nav-' + name).classList.add('active');
+    }
 
-  BANKS.filter(b=>effectiveUserCards.includes(b.id)).forEach(b=>{
-    if(b.promos) {
-      b.promos.forEach(p=>{
-        if (promoEsHoy(p.vigencia)) {
-          todaysPromos.push({...p, bank: b.name, icon: b.icon, color: b.color, bankId: b.id});
+    /* ============================================================
+       THEME
+    ============================================================ */
+    let isDark = true;
+    function toggleTheme() {
+      isDark = !isDark;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+    }
+
+    /* ============================================================
+       DATE
+    ============================================================ */
+    function setDate() {
+      const d = new Date();
+      const dias = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+      const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+      document.getElementById('date-badge').textContent = `${dias[d.getDay()]} ${d.getDate()} ${meses[d.getMonth()]}`;
+    }
+
+    /* ============================================================
+       API: DÓLAR
+    ============================================================ */
+    async function fetchDolar() {
+      const fallback = [
+        { nombre: 'Oficial', compra: 1085, venta: 1090 },
+        { nombre: 'MEP', compra: 1318, venta: 1325 },
+        { nombre: 'Blue', compra: 1350, venta: 1360 },
+        { nombre: 'Cripto', compra: 1330, venta: 1340 },
+      ];
+      try {
+        const res = await fetch('https://dolarapi.com/v1/dolares', { signal: AbortSignal.timeout(5000) });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        return data.filter(d => ['oficial', 'blue', 'mep', 'cripto'].includes(d.casa));
+      } catch {
+        return fallback;
+      }
+    }
+
+    /* ============================================================
+       RENDER: HOME
+    ============================================================ */
+    function renderHome(dolarData) {
+      // AI recommendation
+      let effectiveUserCards = [...userCards];
+      if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
+      const myBanks = BANKS.filter(b => effectiveUserCards.includes(b.id));
+      let bestPromo = null;
+      for (const b of myBanks) {
+        if (!b.promos) continue;
+        const sup = b.promos.find(p => p.rubro === 'supermercados');
+        if (sup && (!bestPromo || parseInt(sup.desc) > parseInt(bestPromo.pct))) {
+          bestPromo = { bank: b.name, icon: b.icon, ...sup, pct: parseInt(sup.desc) };
+        }
+      }
+      if (bestPromo) {
+        document.getElementById('ai-main-text').innerHTML = `Hoy pagá con <em>${bestPromo.bank}</em> en supermercados y ahorrá <em>${bestPromo.desc}</em>`;
+        document.getElementById('ai-sub-text').textContent = `${bestPromo.comercio} · Tope ${bestPromo.tope} · ${bestPromo.vigencia}`;
+        document.getElementById('ai-tags').innerHTML =
+          `<span class="badge badge-green">✅ ${bestPromo.rubro}</span>` +
+          `<span class="badge badge-blue">💳 ${bestPromo.card}</span>` +
+          `<span class="badge badge-amber">⏱ Hoy</span>`;
+      } else {
+        const hasCards = userCards.length > 0;
+        if (hasCards) {
+          document.getElementById('ai-main-text').innerHTML = 'Revisá tus beneficios de hoy deslizando hacia abajo.';
+          document.getElementById('ai-sub-text').textContent = 'Agregamos toda la info para que estires tus ahorros.';
+        } else {
+          document.getElementById('ai-main-text').innerHTML = 'Activá tus tarjetas en <em>Mis Tarjetas</em> para ver recomendaciones personalizadas';
+          document.getElementById('ai-sub-text').textContent = 'Cuantas más tarjetas agregues, mejor será la recomendación.';
+        }
+      }
+
+      // Today Promos instead of Top Promos
+      const hp = document.getElementById('home-promos');
+      hp.innerHTML = '';
+      let todaysPromos = [];
+      if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
+      BANKS.filter(b => effectiveUserCards.includes(b.id)).forEach(b => {
+        if (b.promos) {
+          b.promos.forEach(p => {
+            if (promoEsHoy(p.vigencia)) {
+              todaysPromos.push({ ...p, bank: b.name, icon: b.icon, color: b.color, bankId: b.id });
+            }
+          });
         }
       });
-    }
-  });
-  
-  // Sort from biggest discount to lowest
-  todaysPromos.sort((a,b) => parseInt(b.desc) - parseInt(a.desc));
-  
-  if(!todaysPromos.length){
-    hp.innerHTML='<div class="card" style="text-align:center;padding:28px;color:var(--text3)">Hoy no hay promos súper destacadas o te faltan activar tarjetas en el panel. 💳</div>';
-    return;
-  }
-  
-  todaysPromos.forEach(p=>{
-    const d=document.createElement('div');
-    d.className='promo-pill';
-    const bankLogo = BANK_LOGOS[p.bankId] || p.icon;
-    d.innerHTML=`
+
+      // Sort from biggest discount to lowest
+      todaysPromos.sort((a, b) => parseInt(b.desc) - parseInt(a.desc));
+
+      if (!todaysPromos.length) {
+        hp.innerHTML = '<div class="card" style="text-align:center;padding:28px;color:var(--text3)">Hoy no hay promos súper destacadas o te faltan activar tarjetas en el panel. 💳</div>';
+        return;
+      }
+
+      todaysPromos.forEach(p => {
+        const d = document.createElement('div');
+        d.className = 'promo-pill';
+        const bankLogo = BANK_LOGOS[p.bankId] || p.icon;
+        d.innerHTML = `
       <div class="promo-pill-icon">${bankLogo}</div>
       <div class="promo-pill-body">
         <div class="promo-pill-title">${p.comercio} <span class="badge badge-hoy" style="padding:1px 4px;font-size:9px;">HOY</span></div>
@@ -753,135 +1746,135 @@ function renderHome(dolarData){
       </div>
       <div class="promo-pill-pct">${p.desc}</div>
     `;
-    d.onclick=()=>goScreen('promos');
-    hp.appendChild(d);
-  });
-}
+        d.onclick = () => goScreen('promos');
+        hp.appendChild(d);
+      });
+    }
 
-/* ============================================================
-   RENDER: PROMOS
-============================================================ */
-let currentRubro='todos';
-function renderPromos(rubro='todos'){
-  currentRubro=rubro;
-  const list=document.getElementById('promos-list');
-  list.innerHTML='';
+    /* ============================================================
+       RENDER: PROMOS
+    ============================================================ */
+    let currentRubro = 'todos';
+    function renderPromos(rubro = 'todos') {
+      currentRubro = rubro;
+      const list = document.getElementById('promos-list');
+      list.innerHTML = '';
 
-  // Contamos promos activas hoy
-  let promasHoyCount=0;
+      // Contamos promos activas hoy
+      let promasHoyCount = 0;
 
-  // Ordenamos bancos: seleccionados arriba
-  let effectiveUserCards = [...userCards];
-  const modoActive = isModoActive();
-  if (modoActive && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+      // Ordenamos bancos: seleccionados arriba
+      let effectiveUserCards = [...userCards];
+      const modoActive = isModoActive();
+      if (modoActive && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
 
-  const sortedBanks = [...BANKS].sort((a,b)=>{
-    const sA = effectiveUserCards.includes(a.id)?1:0;
-    const sB = effectiveUserCards.includes(b.id)?1:0;
-    return sB - sA;
-  });
+      const sortedBanks = [...BANKS].sort((a, b) => {
+        const sA = effectiveUserCards.includes(a.id) ? 1 : 0;
+        const sB = effectiveUserCards.includes(b.id) ? 1 : 0;
+        return sB - sA;
+      });
 
-  sortedBanks.forEach(bank=>{
-    if(!bank.promos) return;
-    let promos=bank.promos.filter(p=>rubro==='todos'||p.rubro===rubro);
-    if(!promos.length) return;
-    // Ordenar: primero las que son hoy
-    promos.sort((a,b)=>promoEsHoy(b.vigencia)?1:-1);
-    const esMiBanco = effectiveUserCards.includes(bank.id);
-    promasHoyCount += promos.filter(p => promoEsHoy(p.vigencia) && esMiBanco).length;
-    const active = esMiBanco;
-    const bankLogo = BANK_LOGOS[bank.id] || bank.icon;
-    const el=document.createElement('div');
-    el.className='promo-card';
-    el.style.opacity=active?1:0.55;
-    el.innerHTML=`
+      sortedBanks.forEach(bank => {
+        if (!bank.promos) return;
+        let promos = bank.promos.filter(p => rubro === 'todos' || p.rubro === rubro);
+        if (!promos.length) return;
+        // Ordenar: primero las que son hoy
+        promos.sort((a, b) => promoEsHoy(b.vigencia) ? 1 : -1);
+        const esMiBanco = effectiveUserCards.includes(bank.id);
+        promasHoyCount += promos.filter(p => promoEsHoy(p.vigencia) && esMiBanco).length;
+        const active = esMiBanco;
+        const bankLogo = BANK_LOGOS[bank.id] || bank.icon;
+        const el = document.createElement('div');
+        el.className = 'promo-card';
+        el.style.opacity = active ? 1 : 0.55;
+        el.innerHTML = `
       <div class="promo-card-head">
         <div class="bank-logo" style="background:${bank.color}">${bankLogo}</div>
         <div class="promo-card-head-info">
-          <div class="bank-name">${bank.name} ${active?'<span class="badge badge-green">✔ mi banco</span>':''}</div>
-          <div class="bank-promos-count">${promos.filter(p=>promoEsHoy(p.vigencia)).length} activas hoy · ${promos.length} total</div>
+          <div class="bank-name">${bank.name} ${active ? '<span class="badge badge-green">✔ mi banco</span>' : ''}</div>
+          <div class="bank-promos-count">${promos.filter(p => promoEsHoy(p.vigencia)).length} activas hoy · ${promos.length} total</div>
         </div>
       </div>
       <div class="promo-card-body">
-        ${promos.map(p=>{
-          const esHoy=promoEsHoy(p.vigencia);
+        ${promos.map(p => {
+          const esHoy = promoEsHoy(p.vigencia);
           return `
-          <div class="promo-row ${esHoy?'promo-hoy-row':''}">
+          <div class="promo-row ${esHoy ? 'promo-hoy-row' : ''}">
             <div class="promo-row-left">
               <strong>${p.comercio}</strong>
-              ${esHoy?'<span class="badge badge-hoy" style="margin-left:6px;font-size:10px">● HOY</span>':''}
-              <div class="promo-detail">Tope ${p.tope} · <em style="color:var(--text2)">${p.vigencia}</em> · ${p.card}${p.nota?` · ⚠️ ${p.nota}`:''}</div>
+              ${esHoy ? '<span class="badge badge-hoy" style="margin-left:6px;font-size:10px">● HOY</span>' : ''}
+              <div class="promo-detail">Tope ${p.tope} · <em style="color:var(--text2)">${p.vigencia}</em> · ${p.card}${p.nota ? ` · ⚠️ ${p.nota}` : ''}</div>
             </div>
             <div class="promo-row-right">
-              <div class="pct-big" style="color:${esHoy?'var(--green)':'var(--text3)'}">${p.desc}</div>
+              <div class="pct-big" style="color:${esHoy ? 'var(--green)' : 'var(--text3)'}">${p.desc}</div>
             </div>
           </div>
           `;
         }).join('<hr style="border:none;border-top:1px solid var(--glass-border)">')}
       </div>
     `;
-    list.appendChild(el);
-  });
+        list.appendChild(el);
+      });
 
-  // Banner resumen: Solo mostramos si hay bancos activos
-  const banner=document.getElementById('promos-summary-banner');
-  if(banner) {
-    if (effectiveUserCards.length > 0) {
-      const activeBanksCount = BANKS.filter(b => effectiveUserCards.includes(b.id) && b.id !== 'modo').length;
-      banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;"><span class="badge badge-green">✔</span> ${promasHoyCount} promos con tus ${activeBanksCount} bancos ${modoActive ? '+ MODO' : ''}</span>`;
-      banner.closest('.banner-container')?.style.setProperty('display', 'block');
-    } else {
-      banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;">💡 Seleccioná tus bancos en "Mis Tarjetas"</span>`;
+      // Banner resumen: Solo mostramos si hay bancos activos
+      const banner = document.getElementById('promos-summary-banner');
+      if (banner) {
+        if (effectiveUserCards.length > 0) {
+          const activeBanksCount = BANKS.filter(b => effectiveUserCards.includes(b.id) && b.id !== 'modo').length;
+          banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;"><span class="badge badge-green">✔</span> ${promasHoyCount} promos con tus ${activeBanksCount} bancos ${modoActive ? '+ MODO' : ''}</span>`;
+          banner.closest('.banner-container')?.style.setProperty('display', 'block');
+        } else {
+          banner.innerHTML = `<span style="display:flex;align-items:center;gap:8px;">💡 Seleccioná tus bancos en "Mis Tarjetas"</span>`;
+        }
+      }
+
+      if (!list.children.length) {
+        list.innerHTML = '<div class="card" style="text-align:center;padding:28px;color:var(--text3)">Sin promos en esta categoría hoy 🤷</div>';
+      }
     }
-  }
+    function filterPromos(rubro, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPromos(rubro);
+    }
 
-  if(!list.children.length){
-    list.innerHTML='<div class="card" style="text-align:center;padding:28px;color:var(--text3)">Sin promos en esta categoría hoy 🤷</div>';
-  }
-}
-function filterPromos(rubro,btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderPromos(rubro);
-}
-
-/* ============================================================
-   RENDER: MIS TARJETAS
-============================================================ */
-const CARD_STYLES=[
-  // Nuevos
-  {id:'nacion',name:'Banco Nación',sub:'BNA+ / Tarjetas',network:'VISA',color:'linear-gradient(135deg,#0E7391,#14b8a6)',text:'#fff'},
-  {id:'provincia',name:'Banco Provincia',sub:'Cuenta DNI',network:'VISA',color:'linear-gradient(135deg,#279D2E,#34d399)',text:'#fff'},
-  {id:'patagonia',name:'Banco Patagonia',sub:'Visa / Mastercard',network:'VISA',color:'linear-gradient(135deg,#0033a0,#005eb8)',text:'#fff'},
-  {id:'icbc',name:'ICBC',sub:'Visa / Mastercard',network:'VISA',color:'linear-gradient(135deg,#c8102e,#e31837)',text:'#fff'},
-  {id:'hsbc',name:'HSBC',sub:'Visa / Mastercard',network:'VISA',color:'linear-gradient(135deg,#db0011,#ff0000)',text:'#fff'},
-  // Bancos tradicionales
-  {id:'galicia',name:'Galicia',sub:'Visa / Mastercard Crédito',network:'VISA',color:'linear-gradient(135deg,#FA6400,#ff8c42)',text:'#fff'},
-  {id:'santander',name:'Santander',sub:'Visa / Mastercard',network:'VISA',color:'linear-gradient(135deg,#EC0000,#ff4d4d)',text:'#fff'},
-  {id:'bbva',name:'BBVA',sub:'Visa / Mastercard',network:'MODO',color:'linear-gradient(135deg,#14549C,#2563eb)',text:'#fff'},
-  {id:'macro',name:'Banco Macro',sub:'Visa Selecta',network:'VISA',color:'linear-gradient(135deg,#004481,#1e40af)',text:'#fff'},
-  {id:'ciudad',name:'Banco Ciudad',sub:'Visa / Mastercard',network:'MC',color:'linear-gradient(135deg,#155e75,#0891b2)',text:'#fff'},
-  // Billeteras / QR
-  {id:'mercadopago',name:'Mercado Pago',sub:'Cuenta / Prepaga',network:'MP',color:'linear-gradient(135deg,#FFF059,#ffdf00)',text:'#fff'},
-  {id:'naranjax',name:'Naranja X',sub:'Tarjeta + Billetera',network:'NX',color:'linear-gradient(135deg,#F75000,#ff7a33)',text:'#fff'},
-  {id:'personalpay',name:'Personal Pay',sub:'Billetera digital',network:'📱',color:'linear-gradient(135deg,#701a75,#c026d3)',text:'#fff'},
-  // Fintechs / Neobancos
-  {id:'uala',name:'Ualá',sub:'Prepaga Mastercard',network:'MC',color:'linear-gradient(135deg,#4c1d95,#7c3aed)',text:'#fff'},
-  {id:'brubank',name:'Brubank',sub:'Visa Digital',network:'VISA',color:'linear-gradient(135deg,#4c1d95,#6d28d9)',text:'#fff'},
-  {id:'yoy',name:'YOY',sub:'Cashback en compras',network:'YOY',color:'linear-gradient(135deg,#854d0e,#eab308)',text:'#fff'},
-  {id:'lemon',name:'Lemon Cash',sub:'Crypto + Pesos',network:'🍋',color:'linear-gradient(135deg,#c1ff00,#000)',text:'#000'},
-];
-function renderCards(){
-  const cl=document.getElementById('cards-list');
-  cl.innerHTML='';
-  CARD_STYLES.forEach(c=>{
-    const active=userCards.includes(c.id);
-    const bankLogo = BANK_LOGOS[c.id] || `<span>${c.name.charAt(0)}</span>`;
-    const el=document.createElement('div');
-    el.className='wallet-card '+(active?'active-card':'inactive-card');
-    el.style.background=c.color;
-    el.style.color=c.text;
-    el.innerHTML=`
+    /* ============================================================
+       RENDER: MIS TARJETAS
+    ============================================================ */
+    const CARD_STYLES = [
+      // Nuevos
+      { id: 'nacion', name: 'Banco Nación', sub: 'BNA+ / Tarjetas', network: 'VISA', color: 'linear-gradient(135deg,#0E7391,#14b8a6)', text: '#fff' },
+      { id: 'provincia', name: 'Banco Provincia', sub: 'Cuenta DNI', network: 'VISA', color: 'linear-gradient(135deg,#279D2E,#34d399)', text: '#fff' },
+      { id: 'patagonia', name: 'Banco Patagonia', sub: 'Visa / Mastercard', network: 'VISA', color: 'linear-gradient(135deg,#0033a0,#005eb8)', text: '#fff' },
+      { id: 'icbc', name: 'ICBC', sub: 'Visa / Mastercard', network: 'VISA', color: 'linear-gradient(135deg,#c8102e,#e31837)', text: '#fff' },
+      { id: 'hsbc', name: 'HSBC', sub: 'Visa / Mastercard', network: 'VISA', color: 'linear-gradient(135deg,#db0011,#ff0000)', text: '#fff' },
+      // Bancos tradicionales
+      { id: 'galicia', name: 'Galicia', sub: 'Visa / Mastercard Crédito', network: 'VISA', color: 'linear-gradient(135deg,#FA6400,#ff8c42)', text: '#fff' },
+      { id: 'santander', name: 'Santander', sub: 'Visa / Mastercard', network: 'VISA', color: 'linear-gradient(135deg,#EC0000,#ff4d4d)', text: '#fff' },
+      { id: 'bbva', name: 'BBVA', sub: 'Visa / Mastercard', network: 'MODO', color: 'linear-gradient(135deg,#14549C,#2563eb)', text: '#fff' },
+      { id: 'macro', name: 'Banco Macro', sub: 'Visa Selecta', network: 'VISA', color: 'linear-gradient(135deg,#004481,#1e40af)', text: '#fff' },
+      { id: 'ciudad', name: 'Banco Ciudad', sub: 'Visa / Mastercard', network: 'MC', color: 'linear-gradient(135deg,#155e75,#0891b2)', text: '#fff' },
+      // Billeteras / QR
+      { id: 'mercadopago', name: 'Mercado Pago', sub: 'Cuenta / Prepaga', network: 'MP', color: 'linear-gradient(135deg,#FFF059,#ffdf00)', text: '#fff' },
+      { id: 'naranjax', name: 'Naranja X', sub: 'Tarjeta + Billetera', network: 'NX', color: 'linear-gradient(135deg,#F75000,#ff7a33)', text: '#fff' },
+      { id: 'personalpay', name: 'Personal Pay', sub: 'Billetera digital', network: '📱', color: 'linear-gradient(135deg,#701a75,#c026d3)', text: '#fff' },
+      // Fintechs / Neobancos
+      { id: 'uala', name: 'Ualá', sub: 'Prepaga Mastercard', network: 'MC', color: 'linear-gradient(135deg,#4c1d95,#7c3aed)', text: '#fff' },
+      { id: 'brubank', name: 'Brubank', sub: 'Visa Digital', network: 'VISA', color: 'linear-gradient(135deg,#4c1d95,#6d28d9)', text: '#fff' },
+      { id: 'yoy', name: 'YOY', sub: 'Cashback en compras', network: 'YOY', color: 'linear-gradient(135deg,#854d0e,#eab308)', text: '#fff' },
+      { id: 'lemon', name: 'Lemon Cash', sub: 'Crypto + Pesos', network: '🍋', color: 'linear-gradient(135deg,#c1ff00,#000)', text: '#000' },
+    ];
+    function renderCards() {
+      const cl = document.getElementById('cards-list');
+      cl.innerHTML = '';
+      CARD_STYLES.forEach(c => {
+        const active = userCards.includes(c.id);
+        const bankLogo = BANK_LOGOS[c.id] || `<span>${c.name.charAt(0)}</span>`;
+        const el = document.createElement('div');
+        el.className = 'wallet-card ' + (active ? 'active-card' : 'inactive-card');
+        el.style.background = c.color;
+        el.style.color = c.text;
+        el.innerHTML = `
       <div>
         <div class="wallet-logo-container">${bankLogo}</div>
         <div class="wallet-number">•••• •••• •••• ••••</div>
@@ -893,114 +1886,114 @@ function renderCards(){
         </div>
         <div class="wallet-network">${c.network}</div>
       </div>
-      <div class="wallet-toggle" title="${active?'Desactivar':'Activar'}"></div>
+      <div class="wallet-toggle" title="${active ? 'Desactivar' : 'Activar'}"></div>
     `;
-    el.querySelector('.wallet-toggle').onclick=(e)=>{
-      e.stopPropagation();
-      if(userCards.includes(c.id)) userCards=userCards.filter(id=>id!==c.id);
-      else userCards.push(c.id);
-      localStorage.setItem('cqp_cards',JSON.stringify(userCards));
-      renderCards();
+        el.querySelector('.wallet-toggle').onclick = (e) => {
+          e.stopPropagation();
+          if (userCards.includes(c.id)) userCards = userCards.filter(id => id !== c.id);
+          else userCards.push(c.id);
+          localStorage.setItem('cqp_cards', JSON.stringify(userCards));
+          renderCards();
+          updateMatchCount();
+          renderHome(window._dolarData || []);
+          renderPromos(currentRubro);
+          if (window.renderSavings) renderSavings(window._dolarData || []);
+        };
+        cl.appendChild(el);
+      });
       updateMatchCount();
-      renderHome(window._dolarData||[]);
-      renderPromos(currentRubro);
-      if(window.renderSavings) renderSavings(window._dolarData||[]);
-    };
-    cl.appendChild(el);
-  });
-  updateMatchCount();
-}
-function updateMatchCount(){
-  let count=0;
-  let effectiveUserCards = [...userCards];
-  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
-  BANKS.filter(b=>effectiveUserCards.includes(b.id)).forEach(b=>count+=b.promos.length);
-  document.getElementById('match-count').textContent=count;
-}
+    }
+    function updateMatchCount() {
+      let count = 0;
+      let effectiveUserCards = [...userCards];
+      if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+      BANKS.filter(b => effectiveUserCards.includes(b.id)).forEach(b => count += b.promos.length);
+      document.getElementById('match-count').textContent = count;
+    }
 
-/* ============================================================
-   COMPARADOR
-============================================================ */
-// ✅ Comparador actualizado con datos verificados al 16/03/2026
-const COMPARE_DB={
-  'carrefour':[
-    {name:'Banco Nación (BNA+)',detail:'30% off · Tope $12.000/semana · Solo miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},
-    {name:'Banco Galicia (MODO)',detail:'25% off · Tope $10.000/semana · Solo miércoles',pct:'-25%',color:'var(--green)',badge:'MIÉRCOLES'},
-    {name:'BBVA (MODO)',detail:'10% off · Sin tope · Sábados',pct:'-10%',color:'var(--green)',badge:'SÁBADOS'},
-    {name:'Banco Provincia (Cta DNI)',detail:'20% off · Sin tope · Solo miércoles',pct:'-20%',color:'var(--green)',badge:'MIÉRCOLES'},
-    {name:'Mercado Pago (online/app)',detail:'20% off · Tope $15.000 · Solo lunes',pct:'-20%',color:'var(--green)',badge:'LUNES'},
-    {name:'MODO QR',detail:'10% off · Tope $10.000/mes · Solo sábados',pct:'-10%',color:'var(--accent)',badge:'SÁBADOS'},
-  ],
-  'ypf':[
-    {name:'Banco Macro (Selecta)',detail:'30% off · Tope $25.000/mes · Solo miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},
-    {name:'Banco Galicia (MODO)',detail:'15% off · Tope $5.000/mes · Todos los días',pct:'-15%',color:'var(--green)',badge:''},
-    {name:'Banco Nación (BNA+)',detail:'10% off · Tope $3.000 · Todos los días',pct:'-10%',color:'var(--accent)',badge:''},
-    {name:'Santander (App YPF)',detail:'10% off Black/Platinum · Tope $7.500/mes · Jueves',pct:'-10%',color:'var(--accent)',badge:'JUEVES'},
-  ],
-  'pedidosya':[
-    {name:'Galicia Mastercard',detail:'30% off · Tope $2.500 · mar·jue',pct:'-30%',color:'var(--green)',badge:''},
-    {name:'Naranja X',detail:'10% off · Tope $1.500 · Todos los días',pct:'-10%',color:'var(--accent)',badge:''},
-  ],
-  'jumbo':[
-    {name:'Naranja X (Plan Turbo)',detail:'25% off · Tope $12.000/semana · Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
-    {name:'Banco Galicia (MODO)',detail:'25% off · Tope $10.000/semana · Miércoles',pct:'-25%',color:'var(--green)',badge:'MIÉRCOLES'},
-    {name:'BBVA',detail:'25% off · Consultar tope · Todos los días',pct:'-25%',color:'var(--green)',badge:''},
-  ],
-  'farmacity':[
-    {name:'Mercado Pago QR',detail:'15% off · Tope $2.500 · lun a vie',pct:'-15%',color:'var(--green)',badge:''},
-  ],
-  'dia':[
-    {name:'MODO (Varios Bancos)',detail:'20% off · Tope $20k/mes · Vie/Sáb · Mín. $30.000',pct:'-20%',color:'var(--green)',badge:'VIE/SÁB'},
-    {name:'Personal Pay',detail:'20% off · Tope $20k/día · Jueves · Nivel 3',pct:'-20%',color:'var(--green)',badge:'JUEVES'},
-    {name:'Banco Ciudad (MODO)',detail:'20% off · Tope $20k/mes · Lunes · Mín. $20k',pct:'-20%',color:'var(--green)',badge:'LUNES'},
-    {name:'Banco Columbia',detail:'20% off · Tope $9k · Lunes',pct:'-20%',color:'var(--green)',badge:'LUNES'},
-    {name:'Provincia (Cta DNI)',detail:'20% off · Tope $8k · Lunes · Mín. $25k',pct:'-20%',color:'var(--green)',badge:'LUNES'},
-    {name:'Naranja X',detail:'25% off · Tope $12k · Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
-    {name:'Prex (Online)',detail:'25% off · Tope $10k · Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
-    {name:'Banco del Sol (MODO)',detail:'25% off · Tope $10k · Martes',pct:'-25%',color:'var(--green)',badge:'MARTES'},
-    {name:'Mercado Pago QR',detail:'10% off · Sin tope · Miércoles (Dinero en cuenta)',pct:'-10%',color:'var(--accent)',badge:'MIÉRCOLES'},
-    {name:'Banco Nación (BNA+)',detail:'5% off · Tope $5.000/semana · Todos los días',pct:'-5%',color:'var(--accent)',badge:''},
-  ],
-  'coto':[
-    {name:'Banco Nación (BNA+)',detail:'30% off · Tope $12.000/semana · Miércoles',pct:'-30%',color:'var(--green)',badge:'MIÉRCOLES'},
-    {name:'MODO QR',detail:'10% off · Sin tope · Sábados',pct:'-10%',color:'var(--green)',badge:'SÁBADOS'},
-  ],
-};
-const QUICK=[{label:'🛒 Carrefour',key:'carrefour'},{label:'🔴 Día',key:'dia'},{label:'⛽ YPF',key:'ypf'},{label:'🍕 PedidosYa',key:'pedidosya'},{label:'💊 Farmacity',key:'farmacity'},{label:'🛵 Rappi',key:'rappi'},{label:'🛒 Coto',key:'coto'},{label:'🫰 Disco',key:'disco'},{label:'🛍️ Walmart',key:'walmart'}];
-
-function initComparador(){
-  const qc=document.getElementById('quick-chips');
-  QUICK.forEach(q=>{
-    const b=document.createElement('button');
-    b.className='quick-chip';
-    b.textContent=q.label;
-    b.onclick=()=>{
-      document.getElementById('compare-input').value=q.label.replace(/^[^\s]+\s/,'');
-      runCompare(q.key);
+    /* ============================================================
+       COMPARADOR
+    ============================================================ */
+    // ✅ Comparador actualizado con datos verificados al 16/03/2026
+    const COMPARE_DB = {
+      'carrefour': [
+        { name: 'Banco Nación (BNA+)', detail: '30% off · Tope $12.000/semana · Solo miércoles', pct: '-30%', color: 'var(--green)', badge: 'MIÉRCOLES' },
+        { name: 'Banco Galicia (MODO)', detail: '25% off · Tope $10.000/semana · Solo miércoles', pct: '-25%', color: 'var(--green)', badge: 'MIÉRCOLES' },
+        { name: 'BBVA (MODO)', detail: '10% off · Sin tope · Sábados', pct: '-10%', color: 'var(--green)', badge: 'SÁBADOS' },
+        { name: 'Banco Provincia (Cta DNI)', detail: '20% off · Sin tope · Solo miércoles', pct: '-20%', color: 'var(--green)', badge: 'MIÉRCOLES' },
+        { name: 'Mercado Pago (online/app)', detail: '20% off · Tope $15.000 · Solo lunes', pct: '-20%', color: 'var(--green)', badge: 'LUNES' },
+        { name: 'MODO QR', detail: '10% off · Tope $10.000/mes · Solo sábados', pct: '-10%', color: 'var(--accent)', badge: 'SÁBADOS' },
+      ],
+      'ypf': [
+        { name: 'Banco Macro (Selecta)', detail: '30% off · Tope $25.000/mes · Solo miércoles', pct: '-30%', color: 'var(--green)', badge: 'MIÉRCOLES' },
+        { name: 'Banco Galicia (MODO)', detail: '15% off · Tope $5.000/mes · Todos los días', pct: '-15%', color: 'var(--green)', badge: '' },
+        { name: 'Banco Nación (BNA+)', detail: '10% off · Tope $3.000 · Todos los días', pct: '-10%', color: 'var(--accent)', badge: '' },
+        { name: 'Santander (App YPF)', detail: '10% off Black/Platinum · Tope $7.500/mes · Jueves', pct: '-10%', color: 'var(--accent)', badge: 'JUEVES' },
+      ],
+      'pedidosya': [
+        { name: 'Galicia Mastercard', detail: '30% off · Tope $2.500 · mar·jue', pct: '-30%', color: 'var(--green)', badge: '' },
+        { name: 'Naranja X', detail: '10% off · Tope $1.500 · Todos los días', pct: '-10%', color: 'var(--accent)', badge: '' },
+      ],
+      'jumbo': [
+        { name: 'Naranja X (Plan Turbo)', detail: '25% off · Tope $12.000/semana · Martes', pct: '-25%', color: 'var(--green)', badge: 'MARTES' },
+        { name: 'Banco Galicia (MODO)', detail: '25% off · Tope $10.000/semana · Miércoles', pct: '-25%', color: 'var(--green)', badge: 'MIÉRCOLES' },
+        { name: 'BBVA', detail: '25% off · Consultar tope · Todos los días', pct: '-25%', color: 'var(--green)', badge: '' },
+      ],
+      'farmacity': [
+        { name: 'Mercado Pago QR', detail: '15% off · Tope $2.500 · lun a vie', pct: '-15%', color: 'var(--green)', badge: '' },
+      ],
+      'dia': [
+        { name: 'MODO (Varios Bancos)', detail: '20% off · Tope $20k/mes · Vie/Sáb · Mín. $30.000', pct: '-20%', color: 'var(--green)', badge: 'VIE/SÁB' },
+        { name: 'Personal Pay', detail: '20% off · Tope $20k/día · Jueves · Nivel 3', pct: '-20%', color: 'var(--green)', badge: 'JUEVES' },
+        { name: 'Banco Ciudad (MODO)', detail: '20% off · Tope $20k/mes · Lunes · Mín. $20k', pct: '-20%', color: 'var(--green)', badge: 'LUNES' },
+        { name: 'Banco Columbia', detail: '20% off · Tope $9k · Lunes', pct: '-20%', color: 'var(--green)', badge: 'LUNES' },
+        { name: 'Provincia (Cta DNI)', detail: '20% off · Tope $8k · Lunes · Mín. $25k', pct: '-20%', color: 'var(--green)', badge: 'LUNES' },
+        { name: 'Naranja X', detail: '25% off · Tope $12k · Martes', pct: '-25%', color: 'var(--green)', badge: 'MARTES' },
+        { name: 'Prex (Online)', detail: '25% off · Tope $10k · Martes', pct: '-25%', color: 'var(--green)', badge: 'MARTES' },
+        { name: 'Banco del Sol (MODO)', detail: '25% off · Tope $10k · Martes', pct: '-25%', color: 'var(--green)', badge: 'MARTES' },
+        { name: 'Mercado Pago QR', detail: '10% off · Sin tope · Miércoles (Dinero en cuenta)', pct: '-10%', color: 'var(--accent)', badge: 'MIÉRCOLES' },
+        { name: 'Banco Nación (BNA+)', detail: '5% off · Tope $5.000/semana · Todos los días', pct: '-5%', color: 'var(--accent)', badge: '' },
+      ],
+      'coto': [
+        { name: 'Banco Nación (BNA+)', detail: '30% off · Tope $12.000/semana · Miércoles', pct: '-30%', color: 'var(--green)', badge: 'MIÉRCOLES' },
+        { name: 'MODO QR', detail: '10% off · Sin tope · Sábados', pct: '-10%', color: 'var(--green)', badge: 'SÁBADOS' },
+      ],
     };
-    qc.appendChild(b);
-  });
-}
-function onCompareInput(val){}
-function runCompare(key){
-  const input=document.getElementById('compare-input').value.toLowerCase().trim();
-  const lookupKey=key||Object.keys(COMPARE_DB).find(k=>input.includes(k));
-  const result=document.getElementById('compare-result');
-  if(!lookupKey||!COMPARE_DB[lookupKey]){
-    result.className='compare-result visible';
-    result.innerHTML='<div class="card" style="text-align:center;padding:24px;color:var(--text3)">😕 No encontramos info de ese comercio todavía.<br/>Probá con Carrefour, YPF o PedidosYa.</div>';
-    return;
-  }
-  const promos=COMPARE_DB[lookupKey];
-  const label=lookupKey.charAt(0).toUpperCase()+lookupKey.slice(1);
-  const medals=['🥇','🥈','🥉'];
-  const colors=['gold','silver','bronze'];
-  result.className='compare-result visible';
-  result.innerHTML=`
+    const QUICK = [{ label: '🛒 Carrefour', key: 'carrefour' }, { label: '🔴 Día', key: 'dia' }, { label: '⛽ YPF', key: 'ypf' }, { label: '🍕 PedidosYa', key: 'pedidosya' }, { label: '💊 Farmacity', key: 'farmacity' }, { label: '🛵 Rappi', key: 'rappi' }, { label: '🛒 Coto', key: 'coto' }, { label: '🫰 Disco', key: 'disco' }, { label: '🛍️ Walmart', key: 'walmart' }];
+
+    function initComparador() {
+      const qc = document.getElementById('quick-chips');
+      QUICK.forEach(q => {
+        const b = document.createElement('button');
+        b.className = 'quick-chip';
+        b.textContent = q.label;
+        b.onclick = () => {
+          document.getElementById('compare-input').value = q.label.replace(/^[^\s]+\s/, '');
+          runCompare(q.key);
+        };
+        qc.appendChild(b);
+      });
+    }
+    function onCompareInput(val) { }
+    function runCompare(key) {
+      const input = document.getElementById('compare-input').value.toLowerCase().trim();
+      const lookupKey = key || Object.keys(COMPARE_DB).find(k => input.includes(k));
+      const result = document.getElementById('compare-result');
+      if (!lookupKey || !COMPARE_DB[lookupKey]) {
+        result.className = 'compare-result visible';
+        result.innerHTML = '<div class="card" style="text-align:center;padding:24px;color:var(--text3)">😕 No encontramos info de ese comercio todavía.<br/>Probá con Carrefour, YPF o PedidosYa.</div>';
+        return;
+      }
+      const promos = COMPARE_DB[lookupKey];
+      const label = lookupKey.charAt(0).toUpperCase() + lookupKey.slice(1);
+      const medals = ['🥇', '🥈', '🥉'];
+      const colors = ['gold', 'silver', 'bronze'];
+      result.className = 'compare-result visible';
+      result.innerHTML = `
     <div class="result-title">📍 ${label} — ¿Con qué pagás hoy?</div>
-    ${promos.map((p,i)=>`
+    ${promos.map((p, i) => `
       <div class="rank-item">
-        <div class="rank-num ${colors[i]||''}"> ${medals[i]||`${i+1}`}</div>
+        <div class="rank-num ${colors[i] || ''}"> ${medals[i] || `${i + 1}`}</div>
         <div class="rank-body">
           <div class="rank-name">${p.name}</div>
           <div class="rank-detail">${p.detail}</div>
@@ -1009,290 +2002,440 @@ function runCompare(key){
       </div>
     `).join('')}
   `;
-}
+    }
 
-/* ============================================================
-   RENDER: AHORRO
-============================================================ */
-function renderSavings(dolarData){
-  const grid=document.getElementById('dolar-grid');
-  grid.innerHTML='';
-  const tipos={oficial:'Oficial',blue:'Blue',mep:'MEP',bolsa:'Bolsa',cripto:'Cripto'};
-  const icons={oficial:'🏛️',blue:'💵',mep:'📊',bolsa:'📈',cripto:'🔐'};
-  dolarData.slice(0,4).forEach(d=>{
-    const casa=(d.casa||'').toLowerCase();
-    const nombre=tipos[casa]||d.nombre||casa;
-    const icon=icons[casa]||'💱';
-    const el=document.createElement('div');
-    el.className='dolar-item';
-    el.innerHTML=`
+    /* ============================================================
+       RENDER: AHORRO
+    ============================================================ */
+    function renderSavings(dolarData) {
+      const grid = document.getElementById('dolar-grid');
+      grid.innerHTML = '';
+      const tipos = { oficial: 'Oficial', blue: 'Blue', mep: 'MEP', bolsa: 'Bolsa', cripto: 'Cripto' };
+      const icons = { oficial: '🏛️', blue: '💵', mep: '📊', bolsa: '📈', cripto: '🔐' };
+      dolarData.slice(0, 4).forEach(d => {
+        const casa = (d.casa || '').toLowerCase();
+        const nombre = tipos[casa] || d.nombre || casa;
+        const icon = icons[casa] || '💱';
+        const el = document.createElement('div');
+        el.className = 'dolar-item';
+        el.innerHTML = `
       <div class="dolar-tipo">${icon} ${nombre}</div>
-      <div class="dolar-compra">Compra $${(d.compra||d.comprador||0).toLocaleString('es-AR')}</div>
-      <div class="dolar-venta">$${(d.venta||d.vendedor||0).toLocaleString('es-AR')}</div>
-      <div class="dolar-spread">Spread ${(((d.venta-d.compra)/d.compra)*100||0).toFixed(1)}%</div>
+      <div class="dolar-compra">Compra $${(d.compra || d.comprador || 0).toLocaleString('es-AR')}</div>
+      <div class="dolar-venta">$${(d.venta || d.vendedor || 0).toLocaleString('es-AR')}</div>
+      <div class="dolar-spread">Spread ${(((d.venta - d.compra) / d.compra) * 100 || 0).toFixed(1)}%</div>
     `;
-    grid.appendChild(el);
-  });
-
-  const mepVenta=dolarData.find(d=>(d.casa||'').toLowerCase()==='mep')?.venta||1325;
-  document.getElementById('inv-mep-var').textContent=`~$${mepVenta.toLocaleString('es-AR')} / referencia`;
-  document.getElementById('inv-mep-var').className='inv-val positive';
-
-  // Rec de ahorro
-  document.getElementById('savings-rec-text').textContent=
-    `Con Plazo Fijo al 63% TNA vs inflación del 72%, tu rendimiento real es negativo. `+
-    `Considerá mover excedente a un Fondo Común de Inversión en pesos (FCI, rendimiento ~68%) `+
-    `o comprar dólar MEP ($${mepVenta.toLocaleString('es-AR')}) como cobertura de largo plazo. `+
-    `Dejá solo lo necesario para cubrir gastos en cuenta corriente.`;
-}
-
-/* ============================================================
-   INIT
-============================================================ */
-/* ============================================================
-   MAPA LEAFLET
-=========================================================== */
-let mapInitialized = false;
-let myMap = null;
-
-function initMapIfNeeded() {
-  if (mapInitialized) {
-    if (myMap) myMap.invalidateSize();
-    return;
-  }
-  mapInitialized = true;
-  
-  // Set default center (Buenos Aires, Obelisco)
-  let centerLat = -34.6037;
-  let centerLng = -58.3816;
-  
-  myMap = L.map('map').setView([centerLat, centerLng], 14);
-  
-  const isLightTheme = document.documentElement.getAttribute('data-theme') === 'light';
-  // Use a dark-themed map layer if in dark mode, else default OSM
-  const tileUrl = isLightTheme 
-    ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-    
-  L.tileLayer(tileUrl, {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(myMap);
-
-  // Try geo
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      myMap.setView([lat, lng], 15);
-      
-      // Add user marker
-      L.marker([lat, lng]).addTo(myMap)
-        .bindPopup('<b>📍 Estás aquí</b>').openPopup();
-        
-      // Add fake nearby markers
-      const offset = 0.005;
-      L.marker([lat + offset, lng + offset]).addTo(myMap).bindPopup('<b>⛽ YPF</b><br>Verificá promos en caja.');
-      L.marker([lat - offset, lng + offset]).addTo(myMap).bindPopup('<b>🛒 Carrefour</b><br>Promo bancaria disponible.');
-      L.marker([lat, lng - offset]).addTo(myMap).bindPopup('<b>🍔 Burger King</b><br>15% con MODO.');
-      
-    }, (err) => {
-      console.log('Geo error:', err);
-      // fallback markers logic
-      L.marker([centerLat + 0.005, centerLng + 0.005]).addTo(myMap).bindPopup('<b>⛽ YPF</b>');
-    });
-  }
-}
-
-/* ============================================================
-   NOTIFICATIONS (Web Push + Local Fallback)
-============================================================ */
-const VAPID_PUBLIC_KEY = 'BLGSxbxX6PrUSnW3MixOqK8VCgGPoI_ZPlikqVpmZQ9IyuSEDBh6tLaB5kqtym_c-wyQbLYqX2aPh4GpRksZWH0';
-
-async function setupNotifications() {
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    alert('Tu navegador no soporta notificaciones push.');
-    return;
-  }
-
-  try {
-    const permiso = await Notification.requestPermission();
-    if (permiso !== 'granted') {
-      alert('Necesitamos permiso para avisarte de las promos.');
-      return;
-    }
-
-    const reg = await navigator.serviceWorker.ready;
-    
-    // Suscribir al servidor de push (Estructura lista para backend)
-    const subscription = await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-    });
-
-    console.log('Push Subscription:', JSON.stringify(subscription));
-    localStorage.setItem('yasta_push_sub', JSON.stringify(subscription));
-
-    updateNotifyUI(true);
-    programarNotificacionLocal();
-    
-    // Notificación de bienvenida inmediata
-    reg.showNotification('¡Yastá activa!', {
-      body: 'Te avisaremos cada mañana a las 8:00 AM qué tarjeta te conviene usar.',
-      icon: './icon-192.png',
-      badge: './icon-192.png',
-      tag: 'yasta-welcome',
-      data: { url: './index.html' }
-    });
-
-    mostrarToast('✅ Alertas activadas (8:00 AM)');
-
-  } catch (error) {
-    console.error('Error suscribiendo a notificaciones:', error);
-    alert('Hubo un error al activar las alertas.');
-  }
-}
-
-function updateNotifyUI(active) {
-  const btn = document.getElementById('btn-notify-top');
-  if (btn) {
-    if (active) {
-      btn.textContent = '🔕';
-      btn.title = 'Alertas Activas';
-      btn.classList.add('active-notify');
-      // Podríamos incluso cambiarle el color con CSS
-    } else {
-      btn.textContent = '🔔';
-      btn.title = 'Activar Alertas';
-    }
-  }
-}
-
-function programarNotificacionLocal() {
-  const ahora = new Date();
-  const manana8am = new Date();
-  manana8am.setDate(ahora.getDate() + 1);
-  manana8am.setHours(8, 0, 0, 0);
-  
-  const msHasta8am = manana8am - ahora;
-  
-  setTimeout(() => {
-    mostrarNotificacionDiaria();
-    setInterval(mostrarNotificacionDiaria, 24 * 60 * 60 * 1000);
-  }, msHasta8am);
-}
-
-async function mostrarNotificacionDiaria() {
-  const reg = await navigator.serviceWorker.ready;
-  const promo = obtenerMejorPromoHoy();
-  
-  reg.showNotification('Yastá — Promo del día', {
-    body: promo,
-    icon: './icon-192.png',
-    badge: './icon-192.png',
-    tag: 'promo-diaria',
-    renotify: true,
-    data: { url: './index.html' }
-  });
-}
-
-function obtenerMejorPromoHoy() {
-  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  const hoy = dias[new Date().getDay()];
-  
-  let effectiveUserCards = [...userCards];
-  if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
-
-  // Buscar en el fallback local o cargado
-  let mejor = '';
-  BANKS.filter(b => effectiveUserCards.includes(b.id)).forEach(b => {
-    b.promos.forEach(p => {
-      if (p.vigencia.includes(hoy) || p.vigencia.toLowerCase().includes('todos los días')) {
-        if (!mejor) mejor = `${b.name}: ${p.desc} en ${p.comercio}`;
-      }
-    });
-  });
-
-  return mejor || 'Chequeá las promos de hoy en Yastá';
-}
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
-}
-
-function mostrarToast(msg) {
-  const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:12px 24px;border-radius:30px;font-size:13px;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,0.4);animation:fadeIn 0.3s ease;`;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 3000);
-}
-
-async function init() {
-  setDate();
-  
-  try {
-    const res = await fetch('promos.json');
-    if (res.ok) {
-      const data = await res.json();
-      if (data.banks && data.banks.length > 0) {
-        BANKS = data.banks;
-        console.log('Promos loaded from promos.json');
-      }
-    } else {
-      console.error('Fetch to promos.json was not ok. Status:', res.status);
-    }
-  } catch (e) {
-    console.error('Error fetching promos.json. Using static BANKS fallback.', e);
-  }
-
-  renderCards();
-  initComparador();
-  renderPromos();
-
-  const dolarData = await fetchDolar();
-  window._dolarData = dolarData;
-  renderHome(dolarData);
-  renderSavings(dolarData);
-
-  // Hide splash screen
-  setTimeout(() => {
-    document.getElementById('splash-screen').classList.add('hidden');
-  }, 800);
-}
-document.addEventListener('DOMContentLoaded',init);
-
-/* ============================================================
-   SERVICE WORKER REGISTRATION (PWA)
-=========================================================== */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(registration => {
-        console.log('SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
+        grid.appendChild(el);
       });
-  });
-}
 
-function updateThemeMeta(isDark) {
-  const meta = document.getElementById('theme-color-meta');
-  if (meta) {
-    meta.setAttribute('content', isDark ? '#0D0F14' : '#F0F4FF');
-  }
-}
+      const mepVenta = dolarData.find(d => (d.casa || '').toLowerCase() === 'mep')?.venta || 1325;
+      document.getElementById('inv-mep-var').textContent = `~$${mepVenta.toLocaleString('es-AR')} / referencia`;
+      document.getElementById('inv-mep-var').className = 'inv-val positive';
 
-// Override toggleTheme to also update PWA theme color meta tag
-const originalToggleTheme = toggleTheme;
-toggleTheme = function() {
-  originalToggleTheme();
-  updateThemeMeta(isDark);
-};
+      // Rec de ahorro
+      document.getElementById('savings-rec-text').textContent =
+        (mepVenta > 1350) ? 'El dólar MEP está subiendo. Considerá dolarizar parte de tus ahorros.' : 'El plazo fijo sigue rindiendo bien frente al dólar estable.';
+    }
 
-</script>
+    /* ============================================================
+       GOOGLE MAPS INTEGRATION
+    =========================================================== */
+    let mapInitialized = false;
+    let myMap = null;
+    let markers = [];
+    let infoWindow = null;
+    let userPos = { lat: -34.6037, lng: -58.3816 }; // CABA default
+
+      function initMapIfNeeded() {
+        if (mapInitialized) {
+          google.maps.event.trigger(myMap, 'resize');
+          return;
+        }
+        mapInitialized = true;
+
+        const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+
+        myMap = new google.maps.Map(document.getElementById('map'), {
+          center: userPos,
+          zoom: 14,
+          disableDefaultUI: true,
+          styles: isDarkTheme ? [
+            { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+            { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
+            { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
+            { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#263c3f" }] },
+            { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ color: "#6b9a76" }] },
+            { featureType: "road", elementType: "geometry", stylers: [{ color: "#38414e" }] },
+            { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#212a37" }] },
+            { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#9ca5b3" }] },
+            { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#746855" }] },
+            { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: "#1f2835" }] },
+            { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#f3d19c" }] },
+            { featureType: "transit", elementType: "geometry", stylers: [{ color: "#2f3948" }] },
+            { featureType: "transit.station", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
+            { featureType: "water", elementType: "geometry", stylers: [{ color: "#17263c" }] },
+            { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#515c6d" }] },
+            { featureType: "water", elementType: "labels.text.stroke", stylers: [{ color: "#17263c" }] },
+          ] : []
+        });
+
+        infoWindow = new google.maps.InfoWindow();
+
+        // Try geo
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((pos) => {
+            userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            myMap.setCenter(userPos);
+            new google.maps.Marker({
+              position: userPos,
+              map: myMap,
+              title: "Estás aquí",
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 8,
+                fillColor: "#3B82F6",
+                fillOpacity: 1,
+                strokeWeight: 2,
+                strokeColor: "#ffffff",
+              }
+            });
+            searchNearbyCommerces();
+          });
+        } else {
+          searchNearbyCommerces();
+        }
+
+        // Handle Search Input Enter
+        document.getElementById('map-search-input').addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') searchCommercesInMap();
+        });
+      }
+
+      function recenterMap() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((pos) => {
+            userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            myMap.panTo(userPos);
+            myMap.setZoom(15);
+          });
+        }
+      }
+
+      function searchNearbyCommerces() {
+        markers.forEach(m => m.setMap(null));
+        markers = [];
+
+        const service = new google.maps.places.PlacesService(myMap);
+        const types = ['supermarket', 'gas_station', 'restaurant', 'cafe', 'pharmacy'];
+
+        types.forEach(type => {
+          service.nearbySearch({
+            location: userPos,
+            radius: 2000,
+            type: type
+          }, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              results.forEach(place => createMarker(place));
+            }
+          });
+        });
+      }
+
+      function searchCommercesInMap() {
+        const query = document.getElementById('map-search-input').value;
+        if (!query) return;
+
+        const request = {
+          location: myMap.getCenter(),
+          radius: '5000',
+          query: query
+        };
+
+        const service = new google.maps.places.PlacesService(myMap);
+        service.textSearch(request, (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            markers.forEach(m => m.setMap(null));
+            markers = [];
+            results.forEach(place => {
+              createMarker(place);
+            });
+            if (results[0]) myMap.panTo(results[0].geometry.location);
+          }
+        });
+      }
+
+      function createMarker(place) {
+        const marker = new google.maps.Marker({
+          map: myMap,
+          position: place.geometry.location,
+          title: place.name,
+          animation: google.maps.Animation.DROP
+        });
+
+        google.maps.event.addListener(marker, 'click', () => {
+          const promos = findPromosForPlace(place);
+          let content = `
+      <div class="custom-infowindow">
+        <div class="iw-title">${place.name}</div>
+        <div style="font-size:12px; color:var(--text3);">${place.vicinity || place.formatted_address || ''}</div>
+    `;
+
+          if (promos.length > 0) {
+            content += `<div style="font-weight:600; font-size:12px; margin-top:10px;">🎁 Beneficios hoy:</div>`;
+            promos.forEach(p => {
+              content += `
+          <div class="iw-promo">
+            <strong>${p.desc}</strong> con ${p.bank}<br/>
+            <span style="font-size:10px; opacity:0.8;">${p.card} · Tope ${p.tope}</span>
+          </div>
+        `;
+            });
+          } else {
+            content += `<div style="font-size:11px; margin-top:8px; opacity:0.7;">No hay promos específicas cargadas hoy para esta sucursal.</div>`;
+          }
+
+          content += `</div>`;
+          infoWindow.setContent(content);
+          infoWindow.open(myMap, marker);
+        });
+
+        markers.push(marker);
+      }
+
+      function findPromosForPlace(place) {
+        const name = place.name.toLowerCase();
+        const foundPromos = [];
+
+        // Buscar en COMPARE_DB (mapeo directo de marcas)
+        for (const [key, dbPromos] of Object.entries(COMPARE_DB)) {
+          if (name.includes(key)) {
+            dbPromos.forEach(p => {
+              // Adaptar formato de COMPARE_DB a lo que espera el popup
+              foundPromos.push({
+                bank: p.name,
+                desc: p.pct,
+                card: p.detail.split(' · ')[0],
+                tope: p.detail.split(' · ')[1] || 'Sin tope'
+              });
+            });
+          }
+        }
+
+        // Buscar también en BANKS (promos generales vigentes hoy)
+        let effectiveUserCards = [...userCards];
+        if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
+        BANKS.filter(b => effectiveUserCards.includes(b.id)).forEach(bank => {
+          bank.promos.forEach(p => {
+            if (promoEsHoy(p.vigencia) && name.includes(p.comercio.toLowerCase().split(',')[0].trim())) {
+              // Evitar duplicados si ya vino de COMPARE_DB
+              if (!foundPromos.some(fp => fp.bank === bank.name && fp.desc === p.desc)) {
+                foundPromos.push({
+                  bank: bank.name,
+                  desc: p.desc,
+                  card: p.card,
+                  tope: p.tope
+                });
+              }
+            }
+          });
+        });
+
+      return foundPromos;
+    }
+
+    /* ============================================================
+       NOTIFICATIONS (Web Push + Local Fallback)
+    ============================================================ */
+    const VAPID_PUBLIC_KEY = 'BLGSxbxX6PrUSnW3MixOqK8VCgGPoI_ZPlikqVpmZQ9IyuSEDBh6tLaB5kqtym_c-wyQbLYqX2aPh4GpRksZWH0';
+
+    async function setupNotifications() {
+      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        alert('Tu navegador no soporta notificaciones push.');
+        return;
+      }
+
+      try {
+        const permiso = await Notification.requestPermission();
+        if (permiso !== 'granted') {
+          alert('Necesitamos permiso para avisarte de las promos.');
+          return;
+        }
+
+        const reg = await navigator.serviceWorker.ready;
+
+        // Suscribir al servidor de push (Estructura lista para backend)
+        const subscription = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+        });
+
+        console.log('Push Subscription:', JSON.stringify(subscription));
+        localStorage.setItem('yasta_push_sub', JSON.stringify(subscription));
+
+        updateNotifyUI(true);
+        programarNotificacionLocal();
+
+        // Notificación de bienvenida inmediata
+        reg.showNotification('¡Yastá activa!', {
+          body: 'Te avisaremos cada mañana a las 8:00 AM qué tarjeta te conviene usar.',
+          icon: './icon-192.png',
+          badge: './icon-192.png',
+          tag: 'yasta-welcome',
+          data: { url: './index.html' }
+        });
+
+        mostrarToast('✅ Alertas activadas (8:00 AM)');
+
+      } catch (error) {
+        console.error('Error suscribiendo a notificaciones:', error);
+        alert('Hubo un error al activar las alertas.');
+      }
+    }
+
+    function updateNotifyUI(active) {
+      const btn = document.getElementById('btn-notify-top');
+      if (btn) {
+        if (active) {
+          btn.textContent = '🔕';
+          btn.title = 'Alertas Activas';
+          btn.classList.add('active-notify');
+          // Podríamos incluso cambiarle el color con CSS
+        } else {
+          btn.textContent = '🔔';
+          btn.title = 'Activar Alertas';
+        }
+      }
+    }
+
+    function programarNotificacionLocal() {
+      const ahora = new Date();
+      const manana8am = new Date();
+      manana8am.setDate(ahora.getDate() + 1);
+      manana8am.setHours(8, 0, 0, 0);
+
+      const msHasta8am = manana8am - ahora;
+
+      setTimeout(() => {
+        mostrarNotificacionDiaria();
+        setInterval(mostrarNotificacionDiaria, 24 * 60 * 60 * 1000);
+      }, msHasta8am);
+    }
+
+    async function mostrarNotificacionDiaria() {
+      const reg = await navigator.serviceWorker.ready;
+      const promo = obtenerMejorPromoHoy();
+
+      reg.showNotification('Yastá — Promo del día', {
+        body: promo,
+        icon: './icon-192.png',
+        badge: './icon-192.png',
+        tag: 'promo-diaria',
+        renotify: true,
+        data: { url: './index.html' }
+      });
+    }
+
+    function obtenerMejorPromoHoy() {
+      const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const hoy = dias[new Date().getDay()];
+
+      let effectiveUserCards = [...userCards];
+      if (isModoActive() && !effectiveUserCards.includes('modo')) effectiveUserCards.push('modo');
+
+      // Buscar en el fallback local o cargado
+      let mejor = '';
+      BANKS.filter(b => effectiveUserCards.includes(b.id)).forEach(b => {
+        b.promos.forEach(p => {
+          if (p.vigencia.includes(hoy) || p.vigencia.toLowerCase().includes('todos los días')) {
+            if (!mejor) mejor = `${b.name}: ${p.desc} en ${p.comercio}`;
+          }
+        });
+      });
+
+      return mejor || 'Chequeá las promos de hoy en Yastá';
+    }
+
+    function urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+      const rawData = window.atob(base64);
+      return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+    }
+
+    function mostrarToast(msg) {
+      const t = document.createElement('div');
+      t.style.cssText = `position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:12px 24px;border-radius:30px;font-size:13px;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,0.4);animation:fadeIn 0.3s ease;`;
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3000);
+    }
+
+    async function init() {
+      setDate();
+
+      try {
+        const res = await fetch('promos.json');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.banks && data.banks.length > 0) {
+            BANKS = data.banks;
+            console.log('Promos loaded from promos.json');
+          }
+        } else {
+          console.error('Fetch to promos.json was not ok. Status:', res.status);
+        }
+      } catch (e) {
+        console.error('Error fetching promos.json. Using static BANKS fallback.', e);
+      }
+
+      renderCards();
+      initComparador();
+      renderPromos();
+
+      const dolarData = await fetchDolar();
+      window._dolarData = dolarData;
+      renderHome(dolarData);
+      renderSavings(dolarData);
+
+      // Hide splash screen
+      setTimeout(() => {
+        document.getElementById('splash-screen').classList.add('hidden');
+      }, 800);
+    }
+    document.addEventListener('DOMContentLoaded', init);
+
+    /* ============================================================
+       SERVICE WORKER REGISTRATION (PWA)
+    =========================================================== */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(registration => {
+            console.log('SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+
+    function updateThemeMeta(isDark) {
+      const meta = document.getElementById('theme-color-meta');
+      if (meta) {
+        meta.setAttribute('content', isDark ? '#0D0F14' : '#F0F4FF');
+      }
+    }
+
+    // Override toggleTheme to also update PWA theme color meta tag
+    const originalToggleTheme = toggleTheme;
+    toggleTheme = function () {
+      originalToggleTheme();
+      updateThemeMeta(isDark);
+    };
+
+  </script>
 </body>
+
 </html>
