@@ -1515,25 +1515,34 @@
       return false;
     }
 
-    const BANK_LOGOS = {
-      galicia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#FA6400"/><text x="50" y="70" text-anchor="middle" font-size="60" fill="white" font-weight="900" font-family="Outfit">G</text></svg>`,
-      santander: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#EC0000"/><path d="M50 20 C65 35 65 55 50 80 C35 55 35 35 50 20" fill="white"/></svg>`,
-      bbva: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#14549C"/><text x="50" y="62" text-anchor="middle" font-size="24" fill="white" font-weight="900" font-family="Outfit">BBVA</text></svg>`,
+    const LOGOS = {
+      // Bancos
+      galicia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#FA6400"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="900" font-family="Outfit">G</text></svg>`,
+      santander: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#EC0000"/><path d="M25 75 L50 25 L75 75 Z" fill="white"/></svg>`,
+      bbva: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#004481"/><text x="50" y="62" text-anchor="middle" font-size="22" fill="white" font-weight="900" font-family="Outfit">BBVA</text></svg>`,
       macro: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#004481"/><text x="50" y="70" text-anchor="middle" font-size="55" fill="white" font-weight="bold" font-family="Outfit">M</text></svg>`,
-      nacion: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#0E7391"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">BNA</text></svg>`,
-      provincia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#279D2E"/><text x="50" y="70" text-anchor="middle" font-size="45" fill="white" font-weight="bold" font-family="Outfit">BP</text></svg>`,
+      nacion: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#00722E"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">BNA</text></svg>`,
+      provincia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#00AD68"/><text x="50" y="70" text-anchor="middle" font-size="45" fill="white" font-weight="bold" font-family="Outfit">BP</text></svg>`,
       ciudad: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#155e75"/><text x="50" y="70" text-anchor="middle" font-size="50" fill="white" font-weight="bold" font-family="Outfit">C</text></svg>`,
-      mercadopago: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#FFF059"/><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="#009EE3" stroke-width="8" fill="none"/></svg>`,
-      naranjax: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#F75000"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="900" font-family="Outfit">X</text></svg>`,
+      mercadopago: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#009EE3"/><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="white" stroke-width="8" fill="none"/></svg>`,
+      naranjax: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#FF4D00"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="900" font-family="Outfit">X</text></svg>`,
       brubank: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#4c1d95"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="bold" font-family="Outfit">B</text></svg>`,
-      personalpay: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#701a75"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="white" font-weight="bold" font-family="Outfit">P</text></svg>`,
-      uala: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#4c1d95"/><circle cx="50" cy="50" r="30" fill="white" opacity="0.2"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">U</text></svg>`,
-      lemon: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#c1ff00"/><circle cx="50" cy="50" r="30" fill="black"/><path d="M50 35 L58 50 L50 65 L42 50 Z" fill="#c1ff00"/></svg>`,
-      patagonia: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#0033a0"/><text x="50" y="70" text-anchor="middle" font-size="60" fill="white" font-weight="bold" font-family="Outfit">P</text></svg>`,
-      hsbc: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#db0011"/><path d="M50 20 L80 50 L50 80 L20 50 Z" fill="white"/></svg>`,
-      icbc: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#c8102e"/><text x="50" y="70" text-anchor="middle" font-size="30" fill="white" font-weight="bold" font-family="Outfit">ICBC</text></svg>`,
-      modo: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#7c3aed"/><path d="M30 50 L50 20 L50 45 L70 45 L50 80 L50 55 Z" fill="white"/></svg>`
+      personalpay: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#00E5FF"/><text x="50" y="72" text-anchor="middle" font-size="65" fill="#1A1A1A" font-weight="bold" font-family="Outfit">P</text></svg>`,
+      uala: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#6366F1"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="bold" font-family="Outfit">U</text></svg>`,
+      hipotecario: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#005AAB"/><path d="M30 70 L50 30 L70 70 Z" fill="white"/></svg>`,
+      supervielle: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#E31E24"/><text x="50" y="70" text-anchor="middle" font-size="60" fill="white" font-weight="900">S</text></svg>`,
+      comafi: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#00355E"/><text x="50" y="70" text-anchor="middle" font-size="50" fill="white" font-weight="bold">C</text></svg>`,
+      modo: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#7c3aed"/><path d="M30 50 L50 20 L50 45 L70 45 L50 80 L50 55 Z" fill="white"/></svg>`,
+      
+      // Comercios
+      ypf: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="10" fill="#0033A0"/><path d="M20 30 L40 30 L50 50 L60 30 L80 30 L50 80 Z" fill="white" opacity="0.8"/><text x="50" y="65" text-anchor="middle" font-size="25" fill="white" font-weight="900">YPF</text></svg>`,
+      shell: `<svg viewBox="0 0 100 100"><path d="M50 10 C20 10 10 40 10 60 Q10 90 50 90 Q90 90 90 60 C90 40 80 10 50 10" fill="#FFD500" stroke="#EE1C25" stroke-width="5"/><path d="M50 30 V80 M30 40 L30 80 M70 40 L70 80" stroke="#EE1C25" stroke-width="5" fill="none"/></svg>`,
+      carrefour: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="white"/><path d="M35 30 Q20 50 35 70 M65 30 Q80 50 65 70" stroke="#004481" stroke-width="15" fill="none"/><path d="M40 50 L60 50" stroke="#E31837" stroke-width="15" fill="none"/></svg>`,
+      dia: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#E31837"/><text x="50" y="70" text-anchor="middle" font-size="50" fill="white" font-weight="900">DÍA</text></svg>`,
+      coto: `<svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#E20613"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="900">COTO</text></svg>`,
+      jumbo: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#008D36"/><text x="50" y="70" text-anchor="middle" font-size="40" fill="white" font-weight="900">J</text></svg>`
     };
+    const BANK_LOGOS = LOGOS; // Alias for backward compatibility
 
     // Se llenará desde promos.json dinámicamente o usa fallback.
     let BANKS = [
@@ -2166,12 +2175,34 @@
       }
 
       function createMarker(place) {
-        const marker = new google.maps.Marker({
+        const name = place.name.toLowerCase();
+        let iconUrl = null;
+        
+        // Determinar icono por nombre
+        if (name.includes('ypf')) iconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(LOGOS.ypf);
+        else if (name.includes('shell')) iconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(LOGOS.shell);
+        else if (name.includes('carrefour')) iconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(LOGOS.carrefour);
+        else if (name.includes('día') || name.includes('supermercado dia')) iconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(LOGOS.dia);
+        else if (name.includes('coto')) iconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(LOGOS.coto);
+        else if (name.includes('jumbo')) iconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(LOGOS.jumbo);
+
+        const markerOptions = {
           map: myMap,
           position: place.geometry.location,
           title: place.name,
           animation: google.maps.Animation.DROP
-        });
+        };
+
+        if (iconUrl) {
+          markerOptions.icon = {
+            url: iconUrl,
+            scaledSize: new google.maps.Size(40, 40),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(20, 20)
+          };
+        }
+
+        const marker = new google.maps.Marker(markerOptions);
 
         google.maps.event.addListener(marker, 'click', () => {
           const promos = findPromosForPlace(place);
