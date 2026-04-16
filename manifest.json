@@ -2,7 +2,7 @@
   "name": "Yastá — Tu asistente financiero",
   "short_name": "Yastá",
   "description": "Cruzá promos bancarias, tasas, dólar e inflación y optimizá tu plata hoy.",
-  "start_url": "./index.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0D0F14",
